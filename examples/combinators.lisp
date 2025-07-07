@@ -2,9 +2,5 @@
 (define (K x y) x)
 (define (I x) x)
 
-(I)
-(K I)
-(S K I)
-
 (define (C f x y) (f y x))
 (define (B f g x) (f (g x)))
