@@ -1,8 +1,6 @@
 import { type Exp } from "../exp/Exp.ts"
 
-export type Stmt = AssertEqual | AssertNotEqual | Compute | Define | Import
-export type AssertEqual = { kind: "AssertEqual"; exps: Array<Exp> }
-export type AssertNotEqual = { kind: "AssertNotEqual"; exps: Array<Exp> }
+export type Stmt =  Compute | Define | Import
 export type Compute = { kind: "Compute"; exp: Exp }
 export type Define = { kind: "Define"; name: string; exp: Exp }
 export type Import = {
@@ -14,20 +12,6 @@ export type Import = {
 export type ImportEntry = {
   name: string
   rename?: string
-}
-
-export function AssertEqual(exps: Array<Exp>): AssertEqual {
-  return {
-    kind: "AssertEqual",
-    exps,
-  }
-}
-
-export function AssertNotEqual(exps: Array<Exp>): AssertNotEqual {
-  return {
-    kind: "AssertNotEqual",
-    exps,
-  }
 }
 
 export function Compute(exp: Exp): Compute {
