@@ -1,1 +1,1 @@
-add type as value
+add type
