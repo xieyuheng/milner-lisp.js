@@ -5,13 +5,3 @@
 (define (and x y) (if x y false))
 (define (or x y) (if x true y))
 (define (not x) (if x false true))
-
-;; Tests
-
-false
-(and true false)
-(not true)
-
-true
-(or true false)
-(not (not true))
