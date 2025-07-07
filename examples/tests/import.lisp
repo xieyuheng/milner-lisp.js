@@ -1,4 +1,4 @@
-(import id compose (rename compose c) "./compose.lisp")
+(import id compose (rename compose c) "compose.lisp")
 
 (compose
  (compose id id)
