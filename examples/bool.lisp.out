@@ -1,0 +1,6 @@
+(lambda (t f) f)
+(lambda (t f) f)
+(lambda (t f) f)
+(lambda (t f) t)
+(lambda (t f) t)
+(lambda (t f) t)
