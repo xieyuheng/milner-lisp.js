@@ -2,4 +2,4 @@
 (lambda (y x) x)
 (lambda (x) x)
 (lambda (x) x)
-(lambda (y) y)
+(lambda (x) x)
