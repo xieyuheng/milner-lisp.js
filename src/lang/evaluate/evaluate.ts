@@ -1,4 +1,4 @@
-import * as Actions from "../actions/index.ts"
+import { apply } from "../apply/index.ts"
 import { envExtend, envFindValue, type Env } from "../env/index.ts"
 import { type Exp } from "../exp/index.ts"
 import { modFindValue, type Mod } from "../mod/index.ts"
@@ -24,14 +24,10 @@ export function evaluate(mod: Mod, env: Env, exp: Exp): Value {
       return Values.Fn(mod, env, exp.name, exp.ret)
     }
 
-    case "FnRec": {
-      return Values.FnRec(mod, env, exp.recName, exp.name, exp.ret)
-    }
-
     case "Ap": {
       const target = evaluate(mod, env, exp.target)
-      const arg = Values.Lazy(mod, env, exp.arg)
-      return Actions.doAp(target, arg)
+      const arg = evaluate(mod, env, exp.arg)
+      return apply(target, arg)
     }
 
     case "Let": {

@@ -1,6 +1,6 @@
 import { type Exp } from "../exp/Exp.ts"
 
-export type Stmt =  Compute | Define | Import
+export type Stmt = Compute | Define | Import
 export type Compute = { kind: "Compute"; exp: Exp }
 export type Define = { kind: "Define"; name: string; exp: Exp }
 export type Import = {
