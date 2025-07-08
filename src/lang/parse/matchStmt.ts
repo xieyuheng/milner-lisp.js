@@ -10,7 +10,7 @@ const stmtMatcher: X.Matcher<Stmt> = X.matcherChoice<Stmt>([
       X.dataToString(name),
       X.dataToArray(args)
         .map(X.dataToString)
-        .reduceRight((f, name) => Exps.Lambda(name, f), matchExp(exp)),
+        .reduceRight((fn, name) => Exps.Lambda(name, fn), matchExp(exp)),
     ),
   ),
 
