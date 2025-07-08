@@ -12,8 +12,8 @@ export function formatExp(exp: Exp): string {
       return `(lambda (${names.join(" ")}) ${ret})`
     }
 
-    case "Ap": {
-      const { target, args } = formatAp(exp.target, [formatExp(exp.arg)])
+    case "Apply": {
+      const { target, args } = formatApply(exp.target, [formatExp(exp.arg)])
       return `(${target} ${args.join(" ")})`
     }
 
@@ -35,12 +35,12 @@ function formatLambda(
   }
 }
 
-function formatAp(
+function formatApply(
   target: Exp,
   args: Array<string>,
 ): { target: string; args: Array<string> } {
-  if (target.kind === "Ap") {
-    return formatAp(target.target, [formatExp(target.arg), ...args])
+  if (target.kind === "Apply") {
+    return formatApply(target.target, [formatExp(target.arg), ...args])
   } else {
     return { target: formatExp(target), args }
   }

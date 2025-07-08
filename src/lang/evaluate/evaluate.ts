@@ -23,7 +23,7 @@ export function evaluate(mod: Mod, env: Env, exp: Exp): Value {
       return Values.Lambda(mod, env, exp.name, exp.ret)
     }
 
-    case "Ap": {
+    case "Apply": {
       const target = evaluate(mod, env, exp.target)
       const arg = evaluate(mod, env, exp.arg)
       return apply(target, arg)

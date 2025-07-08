@@ -1,8 +1,8 @@
 import { type Value } from "../value/index.ts"
 
-export type Neutral = Var | Ap
+export type Neutral = Var | Apply
 export type Var = { kind: "Var"; name: string }
-export type Ap = { kind: "Ap"; target: Neutral; arg: Value }
+export type Apply = { kind: "Apply"; target: Neutral; arg: Value }
 
 export function Var(name: string): Var {
   return {
@@ -11,9 +11,9 @@ export function Var(name: string): Var {
   }
 }
 
-export function Ap(target: Neutral, arg: Value): Ap {
+export function Apply(target: Neutral, arg: Value): Apply {
   return {
-    kind: "Ap",
+    kind: "Apply",
     target,
     arg,
   }

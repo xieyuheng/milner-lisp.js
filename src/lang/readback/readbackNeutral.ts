@@ -9,8 +9,8 @@ export function readbackNeutral(ctx: ReadbackCtx, neutral: Neutral): Exp {
       return Exps.Var(neutral.name)
     }
 
-    case "Ap": {
-      return Exps.Ap(
+    case "Apply": {
+      return Exps.Apply(
         readbackNeutral(ctx, neutral.target),
         readback(ctx, neutral.arg),
       )

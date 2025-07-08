@@ -15,7 +15,7 @@ export function apply(target: Value, arg: Value): Value {
     }
 
     case "NotYet": {
-      return Values.NotYet(Neutrals.Ap(target.neutral, arg))
+      return Values.NotYet(Neutrals.Apply(target.neutral, arg))
     }
   }
 }
