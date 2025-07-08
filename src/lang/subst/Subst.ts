@@ -1,6 +1,5 @@
 import { type Type } from "../type/index.ts"
 
-// Map from type-var to type.
 export type Subst = Map<string, Type>
 
 export function substEmpty(): Subst {
