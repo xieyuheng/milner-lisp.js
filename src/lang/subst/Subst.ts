@@ -15,7 +15,7 @@ export function substFind(subst: Subst, name: string): undefined | Type {
   return subst.get(name)
 }
 
-export function substExtend(subst: Subst, name: string, type: Type): Subst {
+export function substUpdate(subst: Subst, name: string, type: Type): Subst {
   return new Map([...subst, [name, type]])
 }
 

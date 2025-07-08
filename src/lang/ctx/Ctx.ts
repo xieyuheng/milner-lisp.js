@@ -14,6 +14,6 @@ export function ctxFind(ctx: Ctx, name: string): undefined | TypeScheme {
   return ctx.get(name)
 }
 
-export function ctxExtend(ctx: Ctx, name: string, typeScheme: TypeScheme): Ctx {
+export function ctxUpdate(ctx: Ctx, name: string, typeScheme: TypeScheme): Ctx {
   return new Map([...ctx, [name, typeScheme]])
 }
