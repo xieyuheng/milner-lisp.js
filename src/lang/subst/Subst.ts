@@ -17,3 +17,13 @@ export function substFind(subst: Subst, name: string): undefined | Type {
 export function substExtend(subst: Subst, name: string, type: Type): Subst {
   return new Map([...subst, [name, type]])
 }
+
+export function substWalk(subst: Subst, type: Type): Type {
+  while (type.kind === "TypeVar") {
+    const found = substFind(subst, type.name)
+    if (!found) return type
+    type = found
+  }
+
+  return type
+}

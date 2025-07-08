@@ -1,9 +1,9 @@
-import { substExtend, type Subst } from "../subst/index.ts"
+import { substExtend, substWalk, type Subst } from "../subst/index.ts"
 import type { Type } from "../type/index.ts"
 
 export function unifyType(x: Type, y: Type, subst: Subst): Subst | undefined {
-  // x = substWalk(subst, x)
-  // y = substWalk(subst, y)
+  x = substWalk(subst, x)
+  y = substWalk(subst, y)
 
   if (x.kind === "TypeVar" && y.kind === "TypeVar" && x.name === y.name) {
     return subst
