@@ -1,6 +1,10 @@
-[type] infer/infer -- Apply
 [type] infer/infer -- Lambda
 [type] infer/infer -- Let
+`substOnType`
+`substOnTypeScheme`
+`substOnCtx`
+`substCompose`
+`substComposeMany`
 `typeVarGen`
 `typeSchemeGen`
 [type] run -- call infer

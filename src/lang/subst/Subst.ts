@@ -1,3 +1,4 @@
+import type { Ctx } from "../ctx/index.ts"
 import { type Type } from "../type/index.ts"
 
 export type Subst = Map<string, Type>
@@ -26,4 +27,16 @@ export function substWalk(subst: Subst, type: Type): Type {
   }
 
   return type
+}
+
+export function substOnCtx(subst: Subst, ctx: Ctx): Ctx {
+  throw new Error()
+}
+
+export function substOnType(subst: Subst, type: Type): Type {
+  throw new Error()
+}
+
+export function substComposeMany(substArray: Array<Subst>): Subst {
+  throw new Error()
 }

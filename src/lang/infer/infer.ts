@@ -1,30 +1,45 @@
 import { ctxFind, type Ctx } from "../ctx/index.ts"
 import type { Exp } from "../exp/index.ts"
-import { substEmpty, type Subst } from "../subst/index.ts"
-import type { Type, TypeScheme } from "../type/index.ts"
-
-export type Inferred = { subst: Subst; type: Type }
+import {
+  substComposeMany,
+  substEmpty,
+  substOnCtx,
+  substOnType,
+  type Subst,
+} from "../subst/index.ts"
+import * as Types from "../type/index.ts"
+import { typeVarGen, type Type, type TypeScheme } from "../type/index.ts"
+import { unifyType } from "../unify/index.ts"
 
 export function typeSchemeGen(typeScheme: TypeScheme): Type {
   throw new Error()
 }
 
-export function infer(ctx: Ctx, exp: Exp): Inferred {
+export function infer(ctx: Ctx, exp: Exp): [Subst, Type] {
   switch (exp.kind) {
     case "Var": {
       const typeScheme = ctxFind(ctx, exp.name)
       if (!typeScheme) throw new Error(`[infer] undefined name: ${exp.name}`)
-      return {
-        subst: substEmpty(),
-        type: typeSchemeGen(typeScheme),
-      }
-    }
-
-    case "Lambda": {
-      throw new Error()
+      return [substEmpty(), typeSchemeGen(typeScheme)]
     }
 
     case "Apply": {
+      const [targetSubst, targetType] = infer(ctx, exp.target)
+      const [argSubst, argType] = infer(substOnCtx(targetSubst, ctx), exp.arg)
+      const retType = typeVarGen()
+      const lastSubst = unifyType(
+        substOnType(argSubst, targetType),
+        Types.Arrow(argType, retType),
+        substEmpty(),
+      )
+      if (!lastSubst) throw new Error("[infer] fail on apply")
+      return [
+        substComposeMany([lastSubst, argSubst, targetSubst]),
+        substOnType(lastSubst, retType),
+      ]
+    }
+
+    case "Lambda": {
       throw new Error()
     }
 
