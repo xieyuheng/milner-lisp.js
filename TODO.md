@@ -1,4 +1,3 @@
-[type] infer/infer -- Lambda
 [type] infer/infer -- Let
 `substOnType`
 `substOnTypeScheme`

@@ -1,4 +1,4 @@
-import { ctxFind, type Ctx } from "../ctx/index.ts"
+import { ctxExtend, ctxFind, type Ctx } from "../ctx/index.ts"
 import type { Exp } from "../exp/index.ts"
 import {
   substComposeMany,
@@ -40,7 +40,10 @@ export function infer(ctx: Ctx, exp: Exp): [Subst, Type] {
     }
 
     case "Lambda": {
-      throw new Error()
+      const argType = typeVarGen()
+      const nextCtx = ctxExtend(ctx, exp.name, argType)
+      const [retSubst, retType] = infer(nextCtx, exp.ret)
+      return [retSubst, Types.Arrow(argType, retType)]
     }
 
     case "Let": {
