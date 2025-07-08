@@ -1,3 +1,5 @@
+import type { Ctx } from "../ctx/index.ts"
+
 export type Type = TypeVar | TypeConst | Arrow
 export type TypeVar = { kind: "TypeVar"; name: string }
 export type TypeConst = { kind: "TypeConst"; name: string }
@@ -27,5 +29,9 @@ export function typeSchemeGen(typeScheme: TypeScheme): Type {
 }
 
 export function typeVarGen(): TypeVar {
+  throw new Error()
+}
+
+export function typeClosure(ctx: Ctx, type: Type): TypeScheme {
   throw new Error()
 }

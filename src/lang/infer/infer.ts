@@ -41,10 +41,20 @@ export function infer(ctx: Ctx, exp: Exp): [Subst, Type] {
 
     case "Lambda": {
       const argType = typeVarGen()
-      const nextCtx = ctxExtend(ctx, exp.name, argType)
-      const [retSubst, retType] = infer(nextCtx, exp.ret)
+      const [retSubst, retType] = infer(
+        ctxExtend(ctx, exp.name, argType),
+        exp.ret,
+      )
       return [retSubst, Types.Arrow(argType, retType)]
     }
+
+    // case "Let": {
+    //   const [rhsSubst, rhsType] = infer(ctx, exp.rhs)
+    //   const rhsTypeScheme = typeClosure(substOnCtx(rhsSubst, ctx), rhsType)
+    //   const bodyCtx = substOnCtx(rhsSubst, ctxExtend(ctx, exp.name, rhsTypeScheme))
+    //   const [bodySubst, bodyType] = infer(bodyCtx, exp.body)
+    //   return [substComposeMany([bodySubst, rhsSubst]), bodyType]
+    // }
 
     case "Let": {
       throw new Error()
