@@ -3,9 +3,15 @@ import { type Exp } from "../exp/index.ts"
 import { type Mod } from "../mod/index.ts"
 import { type Neutral } from "../neutral/index.ts"
 
-export type Value = NotYet | Fn
+export type Value = NotYet | Lambda
 export type NotYet = { kind: "NotYet"; neutral: Neutral }
-export type Fn = { kind: "Fn"; mod: Mod; env: Env; name: string; ret: Exp }
+export type Lambda = {
+  kind: "Lambda"
+  mod: Mod
+  env: Env
+  name: string
+  ret: Exp
+}
 
 export function NotYet(neutral: Neutral): NotYet {
   return {
@@ -14,9 +20,9 @@ export function NotYet(neutral: Neutral): NotYet {
   }
 }
 
-export function Fn(mod: Mod, env: Env, name: string, ret: Exp): Fn {
+export function Lambda(mod: Mod, env: Env, name: string, ret: Exp): Lambda {
   return {
-    kind: "Fn",
+    kind: "Lambda",
     mod,
     env,
     name,

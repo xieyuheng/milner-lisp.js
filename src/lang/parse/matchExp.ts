@@ -6,7 +6,7 @@ const expMatcher: X.Matcher<Exp> = X.matcherChoice<Exp>([
   X.matcher("`(lambda ,names ,exp)", ({ names, exp }) =>
     X.dataToArray(names)
       .map(X.dataToString)
-      .reduceRight((fn, name) => Exps.Fn(name, fn), matchExp(exp)),
+      .reduceRight((f, name) => Exps.Lambda(name, f), matchExp(exp)),
   ),
 
   X.matcher("`(let ,binds ,body)", ({ binds, body }) =>

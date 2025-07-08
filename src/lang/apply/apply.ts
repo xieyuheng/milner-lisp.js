@@ -6,7 +6,7 @@ import { type Value } from "../value/index.ts"
 
 export function apply(target: Value, arg: Value): Value {
   switch (target.kind) {
-    case "Fn": {
+    case "Lambda": {
       return evaluate(
         target.mod,
         envExtend(target.env, target.name, arg),

@@ -7,7 +7,7 @@ export function expFreeNames(boundNames: Set<string>, exp: Exp): Set<string> {
       return boundNames.has(exp.name) ? new Set() : new Set([exp.name])
     }
 
-    case "Fn": {
+    case "Lambda": {
       return expFreeNames(new Set([...boundNames, exp.name]), exp.ret)
     }
 
