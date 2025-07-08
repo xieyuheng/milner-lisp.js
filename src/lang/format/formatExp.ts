@@ -1,6 +1,6 @@
-import type { Binding } from "../../lang/subst/index.ts"
+import type { Binding } from "../../lang/exp/index.ts"
 import { type Exp } from "../exp/index.ts"
-import { substBindings } from "../subst/Subst.ts"
+import { substBindings } from "../exp/index.ts"
 
 export function formatExp(exp: Exp): string {
   switch (exp.kind) {
