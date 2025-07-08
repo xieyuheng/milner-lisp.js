@@ -1,5 +1,6 @@
-[type] parse type
-[type] Subst
-[type] ctx/ -- type context
-[type] infer/
+[type] subst/Subst
+[type] unify/unifyType
+[type] ctx/Ctx
+[type] infer/infer
 [type] run -- call infer
+[type] parse type -- support `the`
