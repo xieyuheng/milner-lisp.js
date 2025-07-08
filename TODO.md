@@ -1,4 +1,3 @@
-[type] subst/Subst
 [type] unify/unifyType
 [type] ctx/Ctx
 [type] infer/infer
