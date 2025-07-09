@@ -35,8 +35,7 @@ export function infer(ctx: Ctx, exp: Exp): [Subst, Type] {
       const lastSubst = unifyType(
         substOnType(argSubst, targetType),
         Types.Arrow(argType, retType),
-        substEmpty(),
-      )
+      )(substEmpty())
       if (!lastSubst) throw new Error("[infer] fail on apply")
       return [
         substComposeMany([lastSubst, argSubst, targetSubst]),
