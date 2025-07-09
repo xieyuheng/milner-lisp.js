@@ -1,6 +1,7 @@
-`typeSchemeGen`
+`unifyType` -- use combinators
+`unifyType` -- fix the Datatype case
 
-use `Datatype` instead of `TypeConst`
+`typeSchemeGen`
 
 `substOnType`
 `substOnTypeScheme`

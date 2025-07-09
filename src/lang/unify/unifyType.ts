@@ -17,8 +17,8 @@ export function unifyType(x: Type, y: Type, subst: Subst): Subst | undefined {
     return substUpdate(subst, y.name, x)
   }
 
-  if (x.kind === "TypeConst" && y.kind === "TypeConst") {
-    if (x.name === y.name) {
+  if (x.kind === "Datatype" && y.kind === "Datatype") {
+    if (x.name === y.name && x.args.length === y.args.length) {
       return subst
     } else {
       return undefined

@@ -1,17 +1,17 @@
 import { stringToSubscript } from "../../utils/stringToSubscript.ts"
 import type { Ctx } from "../ctx/index.ts"
 
-export type Type = TypeVar | TypeConst | Arrow
+export type Type = TypeVar | Datatype | Arrow
 export type TypeVar = { kind: "TypeVar"; name: string }
-export type TypeConst = { kind: "TypeConst"; name: string }
+export type Datatype = { kind: "Datatype"; name: string; args: Array<Type> }
 export type Arrow = { kind: "Arrow"; argType: Type; retType: Type }
 
 export function TypeVar(name: string): TypeVar {
   return { kind: "TypeVar", name }
 }
 
-export function TypeConst(name: string): TypeConst {
-  return { kind: "TypeConst", name }
+export function Datatype(name: string, args: Array<Type>): Datatype {
+  return { kind: "Datatype", name, args }
 }
 
 export function Arrow(argType: Type, retType: Type): Arrow {
