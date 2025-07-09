@@ -1,5 +1,6 @@
 import { stringToSubscript } from "../../utils/stringToSubscript.ts"
 import type { Ctx } from "../ctx/index.ts"
+import { substEmpty, substOnType, substUpdate } from "../subst/index.ts"
 
 export type Type = TypeVar | Datatype | Arrow
 export type TypeVar = { kind: "TypeVar"; name: string }
@@ -27,12 +28,22 @@ export function Nu(names: Array<string>, type: Type): Nu {
 
 let typeVarCount = 0
 
-export function typeVarGen(): TypeVar {
-  return TypeVar(stringToSubscript(`t${++typeVarCount}`))
+export function typeVarGen(root?: string): TypeVar {
+  root = root || "t"
+  return TypeVar("t" + stringToSubscript(`${++typeVarCount}`))
 }
 
 export function typeSchemeGen(typeScheme: TypeScheme): Type {
-  throw new Error()
+  if (typeScheme.kind === "Nu") {
+    let subst = substEmpty()
+    for (const name of typeScheme.names) {
+      subst = substUpdate(subst, name, typeVarGen(name))
+    }
+
+    return substOnType(subst, typeScheme.type)
+  }
+
+  return typeScheme
 }
 
 export function typeClosure(ctx: Ctx, type: Type): TypeScheme {

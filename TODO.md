@@ -1,5 +1,3 @@
-`typeSchemeGen`
-
 `substOnType`
 `substOnTypeScheme`
 `substOnCtx`
