@@ -8,7 +8,12 @@ import {
   type Subst,
 } from "../subst/index.ts"
 import * as Types from "../type/index.ts"
-import { typeVarGen, type Type, type TypeScheme } from "../type/index.ts"
+import {
+  typeClosure,
+  typeVarGen,
+  type Type,
+  type TypeScheme,
+} from "../type/index.ts"
 import { unifyType } from "../unify/index.ts"
 
 export function typeSchemeGen(typeScheme: TypeScheme): Type {
@@ -48,16 +53,15 @@ export function infer(ctx: Ctx, exp: Exp): [Subst, Type] {
       return [retSubst, Types.Arrow(argType, retType)]
     }
 
-    // case "Let": {
-    //   const [rhsSubst, rhsType] = infer(ctx, exp.rhs)
-    //   const rhsTypeScheme = typeClosure(substOnCtx(rhsSubst, ctx), rhsType)
-    //   const bodyCtx = substOnCtx(rhsSubst, ctxUpdate(ctx, exp.name, rhsTypeScheme))
-    //   const [bodySubst, bodyType] = infer(bodyCtx, exp.body)
-    //   return [substComposeMany([bodySubst, rhsSubst]), bodyType]
-    // }
-
     case "Let": {
-      throw new Error()
+      const [rhsSubst, rhsType] = infer(ctx, exp.rhs)
+      const rhsTypeScheme = typeClosure(substOnCtx(rhsSubst, ctx), rhsType)
+      const bodyCtx = substOnCtx(
+        rhsSubst,
+        ctxUpdate(ctx, exp.name, rhsTypeScheme),
+      )
+      const [bodySubst, bodyType] = infer(bodyCtx, exp.body)
+      return [substComposeMany([bodySubst, rhsSubst]), bodyType]
     }
   }
 }

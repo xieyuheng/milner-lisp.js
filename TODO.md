@@ -1,4 +1,3 @@
-[type] infer/infer -- Let
 `substOnType`
 `substOnTypeScheme`
 `substOnCtx`
