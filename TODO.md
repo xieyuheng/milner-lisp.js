@@ -1,6 +1,3 @@
-`unifyType` -- use combinators
-`unifyType` -- fix the Datatype case
-
 `typeSchemeGen`
 
 `substOnType`

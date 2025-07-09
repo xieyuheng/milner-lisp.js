@@ -1,3 +1,4 @@
+import { arrayZip } from "../../utils/arrayZip.ts"
 import { substUpdate, substWalk, type Subst } from "../subst/index.ts"
 import type { Type } from "../type/index.ts"
 
@@ -22,18 +23,35 @@ export function unifyType(x: Type, y: Type): SubstEffect {
 
     if (x.kind === "Datatype" && y.kind === "Datatype") {
       if (x.name === y.name && x.args.length === y.args.length) {
-        return subst
+        return effectSequence(
+          arrayZip(x.args, y.args).map(([x, y]) => unifyType(x, y)),
+        )(subst)
       } else {
         return undefined
       }
     }
 
     if (x.kind === "Arrow" && y.kind === "Arrow") {
-      const nextSubst = unifyType(x.argType, y.argType)(subst)
-      if (!nextSubst) return undefined
-      return unifyType(x.retType, y.retType)(nextSubst)
+      return effectSequence([
+        unifyType(x.argType, y.argType),
+        unifyType(x.retType, y.retType),
+      ])(subst)
     }
 
     return undefined
+  }
+}
+
+// combinators
+
+export function effectSequence(effects: Array<SubstEffect>): SubstEffect {
+  return (subst) => {
+    for (const effect of effects) {
+      const newSubst = effect(subst)
+      if (!newSubst) return
+      subst = newSubst
+    }
+
+    return subst
   }
 }
