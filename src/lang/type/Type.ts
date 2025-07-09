@@ -1,3 +1,4 @@
+import { stringToSubscript } from "../../utils/stringToSubscript.ts"
 import type { Ctx } from "../ctx/index.ts"
 
 export type Type = TypeVar | TypeConst | Arrow
@@ -24,11 +25,13 @@ export function Nu(names: Array<string>, type: Type): Nu {
   return { kind: "Nu", names, type }
 }
 
-export function typeSchemeGen(typeScheme: TypeScheme): Type {
-  throw new Error()
-}
+let typeVarCount = 0
 
 export function typeVarGen(): TypeVar {
+  return TypeVar(stringToSubscript(`t${++typeVarCount}`))
+}
+
+export function typeSchemeGen(typeScheme: TypeScheme): Type {
   throw new Error()
 }
 
