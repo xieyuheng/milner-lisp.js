@@ -1,4 +1,3 @@
-import { bindsToArray } from "../exp/index.ts"
 import { type Exp } from "./index.ts"
 
 export function expFreeNames(boundNames: Set<string>, exp: Exp): Set<string> {
@@ -19,17 +18,9 @@ export function expFreeNames(boundNames: Set<string>, exp: Exp): Set<string> {
     }
 
     case "Let": {
-      // NOTE All binds in the binds are independent.
-      const binds = bindsToArray(exp.binds)
-      const bindsFreeNames = binds
-        .map((bind) => Array.from(expFreeNames(boundNames, bind.exp)))
-        .flatMap((names) => names)
       return new Set([
-        ...bindsFreeNames,
-        ...expFreeNames(
-          new Set([...boundNames, ...binds.map((bind) => bind.name)]),
-          exp.body,
-        ),
+        ...expFreeNames(boundNames, exp.rhs),
+        ...expFreeNames(new Set([...boundNames, exp.name]), exp.body),
       ])
     }
   }

@@ -1,4 +1,3 @@
-quit using body to keep Exp simple
 [type] infer/infer -- Let
 `substOnType`
 `substOnTypeScheme`

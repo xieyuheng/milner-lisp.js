@@ -1,5 +1,5 @@
 import type { Bind } from "../../lang/exp/index.ts"
-import { bindsToArray, type Exp } from "../exp/index.ts"
+import { type Exp } from "../exp/index.ts"
 
 export function formatExp(exp: Exp): string {
   switch (exp.kind) {
@@ -18,8 +18,7 @@ export function formatExp(exp: Exp): string {
     }
 
     case "Let": {
-      const binds = bindsToArray(exp.binds).map(formatBind)
-      return `(let (${binds.join(" ")}) ${formatExp(exp.body)})`
+      return `(let ((${exp.name} ${formatExp(exp.rhs)})) ${formatExp(exp.body)})`
     }
   }
 }
