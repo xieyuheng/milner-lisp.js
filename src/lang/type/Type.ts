@@ -1,6 +1,6 @@
 import { globalFreshen } from "../../utils/globalFreshen.ts"
 import { setDifference, setUnion, setUnionMany } from "../../utils/set/index.ts"
-import type { Ctx } from "../ctx/index.ts"
+import { ctxFreeTypeNames, type Ctx } from "../ctx/index.ts"
 import { substEmpty, substOnType, substUpdate } from "../subst/index.ts"
 
 export type Type = TypeVar | Datatype | Arrow
@@ -84,5 +84,6 @@ export function typeSchemeFreeNames(typeScheme: TypeScheme): Set<string> {
 }
 
 export function typeClosure(ctx: Ctx, type: Type): TypeScheme {
-  throw new Error()
+  const freeNames = setDifference(typeFreeNames(type), ctxFreeTypeNames(ctx))
+  return Nu(Array.from(freeNames), type)
 }
