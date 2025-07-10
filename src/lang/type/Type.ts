@@ -28,8 +28,7 @@ export function Nu(names: Array<string>, type: Type): Nu {
 
 let typeVarCount = 0
 
-export function typeVarGen(root?: string): TypeVar {
-  root = root || "t"
+export function typeVarGen(): TypeVar {
   return TypeVar("t" + stringToSubscript(`${++typeVarCount}`))
 }
 
@@ -37,7 +36,7 @@ export function typeSchemeGen(typeScheme: TypeScheme): Type {
   if (typeScheme.kind === "Nu") {
     let subst = substEmpty()
     for (const name of typeScheme.names) {
-      subst = substUpdate(subst, name, typeVarGen(name))
+      subst = substUpdate(subst, name, typeVarGen())
     }
 
     return substOnType(subst, typeScheme.type)
