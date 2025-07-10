@@ -1,1 +1,1 @@
-(: (lambda (x) x) (nu (t₁) (-> t₁ t₁)))
+(the (nu (t₁) (-> t₁ t₁)) (lambda (x) x))

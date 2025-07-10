@@ -15,8 +15,7 @@ export function execute(mod: Mod, stmt: Stmt): null {
       const value = evaluate(mod, envEmpty(), stmt.exp)
       const exp = readback(ReadbackCtx.init(), value)
 
-      console.log(`(: ${formatExp(exp)} ${formatTypeScheme(typeScheme)})`)
-      // console.log(`(the ${formatTypeScheme(typeScheme)} ${formatExp(exp)})`)
+      console.log(`(the ${formatTypeScheme(typeScheme)} ${formatExp(exp)})`)
 
       return null
     }
