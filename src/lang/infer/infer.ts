@@ -10,15 +10,11 @@ import {
 import * as Types from "../type/index.ts"
 import {
   typeClosure,
+  typeSchemeGen,
   typeVarGen,
   type Type,
-  type TypeScheme,
 } from "../type/index.ts"
 import { unifyType } from "../unify/index.ts"
-
-export function typeSchemeGen(typeScheme: TypeScheme): Type {
-  throw new Error()
-}
 
 export function infer(ctx: Ctx, exp: Exp): [Subst, Type] {
   switch (exp.kind) {
