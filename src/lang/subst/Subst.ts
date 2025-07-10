@@ -82,7 +82,7 @@ export function substOnCtx(subst: Subst, ctx: Ctx): Ctx {
   let resultCtx = ctxEmpty()
   for (const name of ctxNames(ctx)) {
     const typeScheme = ctxFind(ctx, name)
-    if (!typeScheme) throw new Error("[substOnCtx]")
+    if (!typeScheme) throw new Error()
     resultCtx = ctxUpdate(resultCtx, name, substOnTypeScheme(subst, typeScheme))
   }
 
@@ -90,7 +90,14 @@ export function substOnCtx(subst: Subst, ctx: Ctx): Ctx {
 }
 
 export function substCompose(nextSubst: Subst, subst: Subst): Subst {
-  throw new Error()
+  let resultSubst = nextSubst
+  for (const name of substNames(subst)) {
+    const type = substFind(subst, name)
+    if (!type) throw new Error()
+    resultSubst = substUpdate(resultSubst, name, substOnType(nextSubst, type))
+  }
+
+  return resultSubst
 }
 
 export function substComposeMany(substArray: Array<Subst>): Subst {

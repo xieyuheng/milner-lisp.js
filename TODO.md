@@ -1,5 +1,3 @@
-`substCompose`
-
 `typeClosure`
 
 [type] run -- call infer
