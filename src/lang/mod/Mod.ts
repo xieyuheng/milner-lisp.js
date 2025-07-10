@@ -13,8 +13,8 @@ export type Mod = {
 export function modToCtx(mod: Mod): Ctx {
   let ctx = ctxEmpty()
   for (const def of mod.defs.values()) {
-    if (def.type) {
-      ctx = ctxUpdate(ctx, def.name, def.type)
+    if (def.typeScheme) {
+      ctx = ctxUpdate(ctx, def.name, def.typeScheme)
     }
   }
 

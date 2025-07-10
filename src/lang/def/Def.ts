@@ -8,6 +8,6 @@ export type Def = {
   name: string
   exp: Exp
   freeNames: Set<string>
-  type?: TypeScheme
+  typeScheme?: TypeScheme
   cache?: Value
 }

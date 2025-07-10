@@ -1,3 +1,4 @@
-[run] `define` -- call `inferClosure`
-[run] `execute` --  -- call `inferClosure`
+[run] `define` -- call `formatTypeScheme`
+`formatTypeScheme`
+[run] `execute` --  -- call `inferTypeScheme`
 [type] parse type -- support `the`

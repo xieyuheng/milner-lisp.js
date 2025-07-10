@@ -17,7 +17,7 @@ import {
 } from "../type/index.ts"
 import { unifyType } from "../unify/index.ts"
 
-export function inferClosure(ctx: Ctx, exp: Exp): TypeScheme {
+export function inferTypeScheme(ctx: Ctx, exp: Exp): TypeScheme {
   const [subst, type] = infer(ctx, exp)
   return typeClosure(substOnCtx(subst, ctx), type)
 }
