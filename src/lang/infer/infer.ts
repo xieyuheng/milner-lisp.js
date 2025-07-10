@@ -19,7 +19,7 @@ import { unifyType } from "../unify/index.ts"
 
 export function inferTypeScheme(ctx: Ctx, exp: Exp): TypeScheme {
   const [subst, type] = infer(ctx, exp)
-  return typeClosure(substOnCtx(subst, ctx), type)
+  return typeClosure(substOnCtx(subst, ctx), substOnType(subst, type))
 }
 
 export function infer(ctx: Ctx, exp: Exp): [Subst, Type] {

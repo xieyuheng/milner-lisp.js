@@ -18,6 +18,14 @@ export function substNames(subst: Subst): Array<string> {
   return Array.from(subst.keys())
 }
 
+export function substTypes(subst: Subst): Array<Type> {
+  return Array.from(subst.values())
+}
+
+export function substEntries(subst: Subst): Array<[string, Type]> {
+  return Array.from(subst.entries())
+}
+
 export function substFind(subst: Subst, name: string): undefined | Type {
   return subst.get(name)
 }
