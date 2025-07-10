@@ -5,6 +5,7 @@ import {
   ctxUpdate,
   type Ctx,
 } from "../ctx/index.ts"
+import * as Types from "../type/index.ts"
 import { type Type, type TypeScheme } from "../type/index.ts"
 
 export type Subst = Map<string, Type>
@@ -42,7 +43,27 @@ export function substWalk(subst: Subst, type: Type): Type {
 }
 
 export function substOnType(subst: Subst, type: Type): Type {
-  throw new Error()
+  switch (type.kind) {
+    case "TypeVar": {
+      const found = substFind(subst, type.name)
+      if (found) return found
+      else return type
+    }
+
+    case "Datatype": {
+      return Types.Datatype(
+        type.name,
+        type.args.map((arg) => substOnType(subst, arg)),
+      )
+    }
+
+    case "Arrow": {
+      return Types.Arrow(
+        substOnType(subst, type.argType),
+        substOnType(subst, type.retType),
+      )
+    }
+  }
 }
 
 export function substOnTypeScheme(

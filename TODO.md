@@ -1,4 +1,3 @@
-`substOnType`
 `substOnTypeScheme`
 
 `substCompose`
