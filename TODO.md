@@ -1,4 +1,3 @@
-`typeSchemeFreeNames`
 `ctxFreeTypeNames`
 `typeClosure`
 

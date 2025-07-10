@@ -1,5 +1,5 @@
 import { globalFreshen } from "../../utils/globalFreshen.ts"
-import { setUnion, setUnionMany } from "../../utils/set/index.ts"
+import { setDifference, setUnion, setUnionMany } from "../../utils/set/index.ts"
 import type { Ctx } from "../ctx/index.ts"
 import { substEmpty, substOnType, substUpdate } from "../subst/index.ts"
 
@@ -70,6 +70,17 @@ export function typeFreeNames(type: Type): Set<string> {
       return setUnion(typeFreeNames(type.argType), typeFreeNames(type.retType))
     }
   }
+}
+
+export function typeSchemeFreeNames(typeScheme: TypeScheme): Set<string> {
+  if (typeScheme.kind === "Nu") {
+    return setDifference(
+      typeFreeNames(typeScheme.type),
+      new Set(typeScheme.names),
+    )
+  }
+
+  return typeFreeNames(typeScheme)
 }
 
 export function typeClosure(ctx: Ctx, type: Type): TypeScheme {
