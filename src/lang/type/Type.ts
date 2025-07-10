@@ -1,4 +1,4 @@
-import { stringToSubscript } from "../../utils/stringToSubscript.ts"
+import { globalFreshen } from "../../utils/globalFreshen.ts"
 import type { Ctx } from "../ctx/index.ts"
 import { substEmpty, substOnType, substUpdate } from "../subst/index.ts"
 
@@ -26,10 +26,8 @@ export function Nu(names: Array<string>, type: Type): Nu {
   return { kind: "Nu", names, type }
 }
 
-let typeVarCount = 0
-
 export function typeVarGen(): TypeVar {
-  return TypeVar("t" + stringToSubscript(`${++typeVarCount}`))
+  return TypeVar(globalFreshen("t"))
 }
 
 export function typeSchemeGen(typeScheme: TypeScheme): Type {

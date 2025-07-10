@@ -84,6 +84,10 @@ export function substOnCtx(subst: Subst, ctx: Ctx): Ctx {
   return newCtx
 }
 
+export function substCompose(nextSubst: Subst, subst: Subst): Subst {
+  throw new Error()
+}
+
 export function substComposeMany(substArray: Array<Subst>): Subst {
   throw new Error()
 }

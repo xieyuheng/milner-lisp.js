@@ -1,0 +1,15 @@
+import { stringToSubscript } from "./stringToSubscript.ts"
+
+const nameCounts: Map<string, number> = new Map()
+
+export function globalFreshen(name: string): string {
+  const count = nameCounts.get(name)
+  if (count === undefined) {
+    nameCounts.set(name, 0)
+    return freshen(name)
+  }
+
+  const freshName = stringToSubscript(`${count + 1}`)
+  nameCounts.set(name, count + 1)
+  return freshName
+}

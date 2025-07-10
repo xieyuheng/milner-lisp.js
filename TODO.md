@@ -1,7 +1,8 @@
+`typeSchemeRefresh`
 `substOnTypeScheme`
 
-`substCompose`
 `substComposeMany`
+`substCompose`
 
 `typeClosure`
 
