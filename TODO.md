@@ -1,4 +1,3 @@
-`substComposeMany`
 `substCompose`
 
 `typeClosure`
