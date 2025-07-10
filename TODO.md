@@ -1,2 +1,2 @@
-[run] `execute` --  -- call `inferTypeScheme` and `formatTypeScheme`
+[run] `execute` -- call `inferTypeScheme` and `formatTypeScheme`
 [type] parse type -- support `the`
