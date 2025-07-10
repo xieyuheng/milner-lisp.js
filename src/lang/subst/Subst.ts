@@ -1,5 +1,11 @@
-import type { Ctx } from "../ctx/index.ts"
-import { type Type } from "../type/index.ts"
+import {
+  ctxEmpty,
+  ctxFind,
+  ctxNames,
+  ctxUpdate,
+  type Ctx,
+} from "../ctx/index.ts"
+import { type Type, type TypeScheme } from "../type/index.ts"
 
 export type Subst = Map<string, Type>
 
@@ -39,8 +45,22 @@ export function substOnType(subst: Subst, type: Type): Type {
   throw new Error()
 }
 
-export function substOnCtx(subst: Subst, ctx: Ctx): Ctx {
+export function substOnTypeScheme(
+  subst: Subst,
+  typeScheme: TypeScheme,
+): TypeScheme {
   throw new Error()
+}
+
+export function substOnCtx(subst: Subst, ctx: Ctx): Ctx {
+  let newCtx = ctxEmpty()
+  for (const name of ctxNames(ctx)) {
+    const typeScheme = ctxFind(ctx, name)
+    if (!typeScheme) throw new Error("[substOnCtx]")
+    newCtx = ctxUpdate(newCtx, name, substOnTypeScheme(subst, typeScheme))
+  }
+
+  return newCtx
 }
 
 export function substComposeMany(substArray: Array<Subst>): Subst {

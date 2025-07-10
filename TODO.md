@@ -1,6 +1,5 @@
 `substOnType`
 `substOnTypeScheme`
-`substOnCtx`
 
 `substCompose`
 `substComposeMany`
