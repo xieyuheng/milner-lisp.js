@@ -2,9 +2,9 @@ import { ctxFind, ctxUpdate, type Ctx } from "../ctx/index.ts"
 import type { Exp } from "../exp/index.ts"
 import {
   substComposeMany,
+  substDeepWalk,
   substEmpty,
   substOnCtx,
-  substOnType,
   type Subst,
 } from "../subst/index.ts"
 import * as Types from "../type/index.ts"
@@ -19,7 +19,7 @@ import { unifyType } from "../unify/index.ts"
 
 export function inferTypeScheme(ctx: Ctx, exp: Exp): TypeScheme {
   const [subst, type] = infer(ctx, exp)
-  return typeClosure(substOnCtx(subst, ctx), substOnType(subst, type))
+  return typeClosure(substOnCtx(subst, ctx), substDeepWalk(subst, type))
 }
 
 export function infer(ctx: Ctx, exp: Exp): [Subst, Type] {
@@ -35,13 +35,14 @@ export function infer(ctx: Ctx, exp: Exp): [Subst, Type] {
       const [argSubst, argType] = infer(substOnCtx(targetSubst, ctx), exp.arg)
       const retType = typeVarGen()
       const lastSubst = unifyType(
-        substOnType(argSubst, targetType),
+        substDeepWalk(argSubst, targetType),
         Types.Arrow(argType, retType),
       )(substEmpty())
       if (!lastSubst) throw new Error("[infer] fail on apply")
+
       return [
         substComposeMany([lastSubst, argSubst, targetSubst]),
-        substOnType(lastSubst, retType),
+        substDeepWalk(lastSubst, retType),
       ]
     }
 

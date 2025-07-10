@@ -1,7 +1,7 @@
 import { globalFreshen } from "../../utils/globalFreshen.ts"
 import { setDifference, setUnion, setUnionMany } from "../../utils/set/index.ts"
 import { ctxFreeTypeNames, type Ctx } from "../ctx/index.ts"
-import { substEmpty, substOnType, substUpdate } from "../subst/index.ts"
+import { substDeepWalk, substEmpty, substUpdate } from "../subst/index.ts"
 
 export type Type = TypeVar | Datatype | Arrow
 export type TypeVar = { kind: "TypeVar"; name: string }
@@ -41,7 +41,7 @@ export function typeSchemeRefresh(typeScheme: TypeScheme): TypeScheme {
       subst = substUpdate(subst, name, TypeVar(freshName))
     }
 
-    return Nu(freshNames, substOnType(subst, typeScheme.type))
+    return Nu(freshNames, substDeepWalk(subst, typeScheme.type))
   }
 
   return typeScheme

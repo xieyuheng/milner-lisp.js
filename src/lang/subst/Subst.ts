@@ -50,25 +50,25 @@ export function substWalk(subst: Subst, type: Type): Type {
   return type
 }
 
-export function substOnType(subst: Subst, type: Type): Type {
+export function substDeepWalk(subst: Subst, type: Type): Type {
+  type = substWalk(subst, type)
+
   switch (type.kind) {
     case "TypeVar": {
-      const found = substFind(subst, type.name)
-      if (found) return found
-      else return type
+      return type
     }
 
     case "Datatype": {
       return Types.Datatype(
         type.name,
-        type.args.map((arg) => substOnType(subst, arg)),
+        type.args.map((arg) => substDeepWalk(subst, arg)),
       )
     }
 
     case "Arrow": {
       return Types.Arrow(
-        substOnType(subst, type.argType),
-        substOnType(subst, type.retType),
+        substDeepWalk(subst, type.argType),
+        substDeepWalk(subst, type.retType),
       )
     }
   }
@@ -80,10 +80,10 @@ export function substOnTypeScheme(
 ): TypeScheme {
   typeScheme = typeSchemeRefresh(typeScheme)
   if (typeScheme.kind === "Nu") {
-    return Types.Nu(typeScheme.names, substOnType(subst, typeScheme.type))
+    return Types.Nu(typeScheme.names, substDeepWalk(subst, typeScheme.type))
   }
 
-  return substOnType(subst, typeScheme)
+  return substDeepWalk(subst, typeScheme)
 }
 
 export function substOnCtx(subst: Subst, ctx: Ctx): Ctx {
@@ -102,7 +102,7 @@ export function substCompose(nextSubst: Subst, subst: Subst): Subst {
   for (const name of substNames(subst)) {
     const type = substFind(subst, name)
     if (!type) throw new Error()
-    resultSubst = substUpdate(resultSubst, name, substOnType(nextSubst, type))
+    resultSubst = substUpdate(resultSubst, name, substDeepWalk(nextSubst, type))
   }
 
   return resultSubst

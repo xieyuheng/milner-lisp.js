@@ -20,15 +20,15 @@
 (mul two (mul two (mul two two)))
 (mul (mul two two) (mul two two))
 
-(import power-of power "nat-church.lisp")
+;; (import power-of power "nat-church.lisp")
 
-(power two three) eight
-(power three two) nine
+;; (power two three) eight
+;; (power three two) nine
 
-(power two four)
-(mul (mul two two) (mul two two))
-(power four two)
-(mul four four)
+;; (power two four)
+;; (mul (mul two two) (mul two two))
+;; (power four two)
+;; (mul four four)
 
 (import true false if and or not "bool.lisp")
 
@@ -48,10 +48,10 @@
 
 (sub three zero) three
 (sub three one) two
-(sub three two) one
-(sub three three) zero (sub three four)
+;; (sub three two) one
+;; (sub three three) zero (sub three four)
 
 (import lteq "nat-church.lisp")
 
-(lteq three four) true
-(lteq four three) false
+;; (lteq three four) true
+;; (lteq four three) false
