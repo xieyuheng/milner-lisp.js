@@ -13,8 +13,14 @@ import {
   typeSchemeGen,
   typeVarGen,
   type Type,
+  type TypeScheme,
 } from "../type/index.ts"
 import { unifyType } from "../unify/index.ts"
+
+export function inferClosure(ctx: Ctx, exp: Exp): TypeScheme {
+  const [subst, type] = infer(ctx, exp)
+  return typeClosure(substOnCtx(subst, ctx), type)
+}
 
 export function infer(ctx: Ctx, exp: Exp): [Subst, Type] {
   switch (exp.kind) {
