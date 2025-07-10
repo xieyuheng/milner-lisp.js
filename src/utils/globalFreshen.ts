@@ -6,7 +6,7 @@ export function globalFreshen(name: string): string {
   const count = nameCounts.get(name)
   if (count === undefined) {
     nameCounts.set(name, 0)
-    return freshen(name)
+    return globalFreshen(name)
   }
 
   const freshName = stringToSubscript(`${count + 1}`)

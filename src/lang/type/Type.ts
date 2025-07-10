@@ -30,14 +30,26 @@ export function typeVarGen(): TypeVar {
   return TypeVar(globalFreshen("t"))
 }
 
-export function typeSchemeGen(typeScheme: TypeScheme): Type {
+export function typeSchemeRefresh(typeScheme: TypeScheme): TypeScheme {
   if (typeScheme.kind === "Nu") {
+    let freshNames = []
     let subst = substEmpty()
     for (const name of typeScheme.names) {
-      subst = substUpdate(subst, name, typeVarGen())
+      const freshName = globalFreshen("t")
+      freshNames.push(freshName)
+      subst = substUpdate(subst, name, TypeVar(freshName))
     }
 
-    return substOnType(subst, typeScheme.type)
+    return Nu(freshNames, substOnType(subst, typeScheme.type))
+  }
+
+  return typeScheme
+}
+
+export function typeSchemeGen(typeScheme: TypeScheme): Type {
+  typeScheme = typeSchemeRefresh(typeScheme)
+  if (typeScheme.kind === "Nu") {
+    return typeScheme.type
   }
 
   return typeScheme

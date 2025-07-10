@@ -1,4 +1,3 @@
-`typeSchemeRefresh`
 `substOnTypeScheme`
 
 `substComposeMany`
