@@ -1,4 +1,4 @@
-import { setPop } from "../../utils/setPop.ts"
+import { setPop } from "../../utils/set/index.ts"
 import type { Mod } from "../mod/index.ts"
 import { modOwnDefs } from "../mod/modOwnDefs.ts"
 import type { Exp } from "./Exp.ts"

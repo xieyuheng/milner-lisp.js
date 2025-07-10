@@ -1,3 +1,5 @@
+`typeSchemeFreeNames`
+`ctxFreeTypeNames`
 `typeClosure`
 
 [type] run -- call infer

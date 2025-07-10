@@ -1,4 +1,5 @@
 import { globalFreshen } from "../../utils/globalFreshen.ts"
+import { setUnion, setUnionMany } from "../../utils/set/index.ts"
 import type { Ctx } from "../ctx/index.ts"
 import { substEmpty, substOnType, substUpdate } from "../subst/index.ts"
 
@@ -53,6 +54,22 @@ export function typeSchemeGen(typeScheme: TypeScheme): Type {
   }
 
   return typeScheme
+}
+
+export function typeFreeNames(type: Type): Set<string> {
+  switch (type.kind) {
+    case "TypeVar": {
+      return new Set([type.name])
+    }
+
+    case "Datatype": {
+      return setUnionMany(type.args.map(typeFreeNames))
+    }
+
+    case "Arrow": {
+      return setUnion(typeFreeNames(type.argType), typeFreeNames(type.retType))
+    }
+  }
 }
 
 export function typeClosure(ctx: Ctx, type: Type): TypeScheme {
