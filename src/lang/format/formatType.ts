@@ -12,8 +12,21 @@ export function formatType(type: Type): string {
     }
 
     case "Arrow": {
-      return `(-> ${formatType(type.argType)} ${formatType(type.retType)})`
+      const [argTypes, retType] = flattenArrow([type.argType], type.retType)
+      const argTypesString = argTypes.map(formatType).join(" ")
+      return `(-> ${argTypesString} ${formatType(retType)})`
     }
+  }
+}
+
+function flattenArrow(
+  argTypes: Array<Type>,
+  retType: Type,
+): [argTypes: Array<Type>, retType: Type] {
+  if (retType.kind === "Arrow") {
+    return flattenArrow([...argTypes, retType.argType], retType.retType)
+  } else {
+    return [argTypes, retType]
   }
 }
 
