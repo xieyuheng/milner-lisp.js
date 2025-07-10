@@ -1,4 +1,2 @@
-[run] `define` -- call `formatTypeScheme`
-`formatTypeScheme`
-[run] `execute` --  -- call `inferTypeScheme`
+[run] `execute` --  -- call `inferTypeScheme` and `formatTypeScheme`
 [type] parse type -- support `the`

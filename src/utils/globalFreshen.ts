@@ -9,7 +9,7 @@ export function globalFreshen(name: string): string {
     return globalFreshen(name)
   }
 
-  const freshName = stringToSubscript(`${count + 1}`)
+  const freshName = stringToSubscript(`${name}${count + 1}`)
   nameCounts.set(name, count + 1)
   return freshName
 }

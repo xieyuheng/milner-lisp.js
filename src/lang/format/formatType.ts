@@ -1,4 +1,4 @@
-import type { Type } from "../type/index.ts"
+import type { Type, TypeScheme } from "../type/index.ts"
 
 export function formatType(type: Type): string {
   switch (type.kind) {
@@ -15,4 +15,13 @@ export function formatType(type: Type): string {
       return `(-> ${formatType(type.argType)} ${formatType(type.retType)})`
     }
   }
+}
+
+export function formatTypeScheme(typeScheme: TypeScheme): string {
+  if (typeScheme.kind === "Nu") {
+    const namesString = typeScheme.names.join(" ")
+    return `(nu (${namesString}) ${formatType(typeScheme.type)})`
+  }
+
+  return formatType(typeScheme)
 }

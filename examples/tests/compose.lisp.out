@@ -1,5 +1,2 @@
 (claim id (nu (t₁) (-> t₁ t₁)))
 (claim compose (nu (t₂ t₃ t₄ t₈) (-> t₂ (-> t₃ (-> t₄ t₈)))))
-(lambda (x) x)
-(lambda (x) x)
-(lambda (x) x)

@@ -3,8 +3,3 @@
 (claim I (nu (t₁₃) (-> t₁₃ t₁₃)))
 (claim C (nu (t₂₀ t₂₁ t₂₂ t₃₈) (-> t₂₀ (-> t₂₁ (-> t₂₂ t₃₈)))))
 (claim B (nu (t₄₆ t₄₇ t₄₈ t₇₂) (-> t₄₆ (-> t₄₇ (-> t₄₈ t₇₂)))))
-(lambda (x) x)
-(lambda (y x) x)
-(lambda (x) x)
-(lambda (x) x)
-(lambda (x) x)
