@@ -1,5 +1,3 @@
-`substOnTypeScheme`
-
 `substComposeMany`
 `substCompose`
 

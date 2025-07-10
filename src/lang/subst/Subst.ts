@@ -6,7 +6,7 @@ import {
   type Ctx,
 } from "../ctx/index.ts"
 import * as Types from "../type/index.ts"
-import { type Type, type TypeScheme } from "../type/index.ts"
+import { typeSchemeRefresh, type Type, type TypeScheme } from "../type/index.ts"
 
 export type Subst = Map<string, Type>
 
@@ -70,7 +70,12 @@ export function substOnTypeScheme(
   subst: Subst,
   typeScheme: TypeScheme,
 ): TypeScheme {
-  throw new Error()
+  typeScheme = typeSchemeRefresh(typeScheme)
+  if (typeScheme.kind === "Nu") {
+    return Types.Nu(typeScheme.names, substOnType(subst, typeScheme.type))
+  }
+
+  return substOnType(subst, typeScheme)
 }
 
 export function substOnCtx(subst: Subst, ctx: Ctx): Ctx {
