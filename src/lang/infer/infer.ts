@@ -1,5 +1,6 @@
 import { ctxFind, ctxUpdate, type Ctx } from "../ctx/index.ts"
 import type { Exp } from "../exp/index.ts"
+import { reifyTypeScheme } from "../reify/reifyTypeScheme.ts"
 import {
   substComposeMany,
   substDeepWalk,
@@ -19,7 +20,9 @@ import { unifyType } from "../unify/index.ts"
 
 export function inferTypeScheme(ctx: Ctx, exp: Exp): TypeScheme {
   const [subst, type] = infer(ctx, exp)
-  return typeClosure(substOnCtx(subst, ctx), substDeepWalk(subst, type))
+  return reifyTypeScheme(
+    typeClosure(substOnCtx(subst, ctx), substDeepWalk(subst, type)),
+  )
 }
 
 export function infer(ctx: Ctx, exp: Exp): [Subst, Type] {

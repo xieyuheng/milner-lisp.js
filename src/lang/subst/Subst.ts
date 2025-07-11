@@ -23,7 +23,7 @@ export function substTypes(subst: Subst): Array<Type> {
 }
 
 export function substLength(subst: Subst): number {
-  throw subst.size
+  return subst.size
 }
 
 export function substEntries(subst: Subst): Array<[string, Type]> {
@@ -94,7 +94,7 @@ export function substOnCtx(subst: Subst, ctx: Ctx): Ctx {
   let resultCtx = ctxEmpty()
   for (const name of ctxNames(ctx)) {
     const typeScheme = ctxFind(ctx, name)
-    if (!typeScheme) throw new Error()
+    if (!typeScheme) throw new Error("[substOnCtx] internal error")
     resultCtx = ctxUpdate(resultCtx, name, substOnTypeScheme(subst, typeScheme))
   }
 
@@ -105,7 +105,7 @@ export function substCompose(nextSubst: Subst, subst: Subst): Subst {
   let resultSubst = nextSubst
   for (const name of substNames(subst)) {
     const type = substFind(subst, name)
-    if (!type) throw new Error()
+    if (!type) throw new Error("[substCompose] internal error")
     resultSubst = substUpdate(resultSubst, name, substDeepWalk(nextSubst, type))
   }
 

@@ -1,4 +1,4 @@
-`reifyTypeScheme`
+`reifyTypeScheme` -- return alphabet
 
 builtin support
 
