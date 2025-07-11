@@ -44,7 +44,7 @@ function numberToReadableName(n: number): string {
   if (p === 0) {
     return `${numberToEnglishAlphabet(n % length)}`
   } else {
-    return `Z${p}`
+    return `${numberToEnglishAlphabet(n % length)}${p}`
   }
 }
 
