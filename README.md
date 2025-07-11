@@ -4,7 +4,7 @@ To practics implementing Hindley-Milner type system.
 
 ## Examples
 
-**combinators.lisp**
+**[combinators.lisp](examples/combinators.lisp)**
 
 ```scheme
 (define (S f g x) ((f x) (g x)))
