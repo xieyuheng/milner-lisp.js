@@ -1,5 +1,3 @@
-`reifyTypeScheme` -- return alphabet
-
 builtin support
 
 support string-t

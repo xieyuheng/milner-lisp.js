@@ -1,65 +1,82 @@
 import {
   substDeepWalk,
   substEmpty,
-  substFind,
   substLength,
   substUpdate,
   type Subst,
 } from "../subst/index.ts"
 import * as Types from "../type/index.ts"
-import { type Type, type TypeScheme } from "../type/index.ts"
+import { type TypeScheme } from "../type/index.ts"
 
 export function reifyTypeScheme(typeScheme: TypeScheme): TypeScheme {
   if (typeScheme.kind !== "Nu") return typeScheme
 
-  const renamingSubst = prepareSubst(
-    typeScheme.names,
-    typeScheme.type,
-    substEmpty(),
+  const renamingSubst = prepareSubst(typeScheme.names)
+
+  return Types.Nu(
+    prepareNewNames(typeScheme.names),
+    substDeepWalk(renamingSubst, typeScheme.type),
   )
+}
 
+function prepareSubst(names: Array<string>): Subst {
+  let subst = substEmpty()
+  for (const name of names) {
+    const newName = numberToReadableName(substLength(subst))
+    subst = substUpdate(subst, name, Types.TypeVar(newName))
+  }
+
+  return subst
+}
+
+function prepareNewNames(names: Array<string>): Array<string> {
   const newNames = []
-  for (const name of typeScheme.names) {
-    const found = substFind(renamingSubst, name)
-    if (!found) throw new Error()
-    if (found.kind !== "TypeVar") throw new Error()
-    newNames.push(found.name)
+  for (const _ of names) {
+    newNames.push(numberToReadableName(newNames.length))
   }
 
-  return Types.Nu(newNames, substDeepWalk(renamingSubst, typeScheme.type))
+  return newNames
 }
 
-function prepareSubst(names: Array<string>, type: Type, subst: Subst): Subst {
-  switch (type.kind) {
-    case "TypeVar": {
-      const found = substFind(subst, type.name)
-      if (found) {
-        return subst
-      } else {
-        return substUpdate(
-          subst,
-          type.name,
-          typeVarGenReadable(substLength(subst)),
-        )
-      }
-    }
-
-    case "Datatype": {
-      for (const arg of type.args) {
-        subst = prepareSubst(names, arg, subst)
-      }
-
-      return subst
-    }
-
-    case "Arrow": {
-      subst = prepareSubst(names, type.argType, subst)
-      subst = prepareSubst(names, type.retType, subst)
-      return subst
-    }
+function numberToReadableName(n: number): string {
+  const length = englishAlphabets.length
+  const p = Math.floor(n / length)
+  if (p === 0) {
+    return `${numberToEnglishAlphabet(n % length)}`
+  } else {
+    return `Z${p}`
   }
 }
 
-function typeVarGenReadable(index: number): Types.TypeVar {
-  return Types.TypeVar(index.toString())
+function numberToEnglishAlphabet(n: number): string {
+  return englishAlphabets[n]
 }
+
+const englishAlphabets = [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+]
