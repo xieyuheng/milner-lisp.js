@@ -1,4 +1,3 @@
-`reifyType`
 `reifyTypeScheme`
 
 builtin support

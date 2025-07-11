@@ -22,6 +22,10 @@ export function substTypes(subst: Subst): Array<Type> {
   return Array.from(subst.values())
 }
 
+export function substLength(subst: Subst): number {
+  throw subst.size
+}
+
 export function substEntries(subst: Subst): Array<[string, Type]> {
   return Array.from(subst.entries())
 }
