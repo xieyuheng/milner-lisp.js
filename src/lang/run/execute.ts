@@ -1,4 +1,4 @@
-import { envEmpty } from "../env/index.ts"
+import { emptyEnv } from "../env/index.ts"
 import { evaluate } from "../evaluate/index.ts"
 import { formatExp, formatTypeScheme } from "../format/index.ts"
 import { inferTypeScheme } from "../infer/index.ts"
@@ -12,7 +12,7 @@ export function execute(mod: Mod, stmt: Stmt): null {
       const ctx = modToCtx(mod)
       const typeScheme = inferTypeScheme(ctx, stmt.exp)
 
-      const value = evaluate(mod, envEmpty(), stmt.exp)
+      const value = evaluate(mod, emptyEnv(), stmt.exp)
       const exp = readback({ usedNames: new Set() }, value)
 
       console.log(`(the ${formatTypeScheme(typeScheme)} ${formatExp(exp)})`)

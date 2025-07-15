@@ -3,7 +3,7 @@ import { typeSchemeFreeNames, type TypeScheme } from "../type/index.ts"
 
 export type Ctx = Map<string, TypeScheme>
 
-export function ctxEmpty(): Ctx {
+export function emptyCtx(): Ctx {
   return new Map()
 }
 

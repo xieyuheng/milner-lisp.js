@@ -1,8 +1,8 @@
 import {
-  ctxEmpty,
   ctxFind,
   ctxNames,
   ctxUpdate,
+  emptyCtx,
   type Ctx,
 } from "../ctx/index.ts"
 import * as Types from "../type/index.ts"
@@ -91,7 +91,7 @@ export function substOnTypeScheme(
 }
 
 export function substOnCtx(subst: Subst, ctx: Ctx): Ctx {
-  let resultCtx = ctxEmpty()
+  let resultCtx = emptyCtx()
   for (const name of ctxNames(ctx)) {
     const typeScheme = ctxFind(ctx, name)
     if (!typeScheme) throw new Error("[substOnCtx] internal error")

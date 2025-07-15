@@ -1,4 +1,4 @@
-import { envEmpty } from "../env/index.ts"
+import { emptyEnv } from "../env/index.ts"
 import { evaluate } from "../evaluate/index.ts"
 import { formatTypeScheme } from "../format/index.ts"
 import { inferTypeScheme } from "../infer/index.ts"
@@ -13,7 +13,7 @@ export function define(mod: Mod, stmt: Stmt): null {
       const ctx = modToCtx(mod)
       const typeScheme = inferTypeScheme(ctx, stmt.exp)
       console.log(`(claim ${stmt.name} ${formatTypeScheme(typeScheme)})`)
-      const value = evaluate(mod, envEmpty(), stmt.exp)
+      const value = evaluate(mod, emptyEnv(), stmt.exp)
       modDefine(mod, stmt.name, {
         mod,
         name: stmt.name,
