@@ -1,8 +1,10 @@
+import { envEmpty } from "../env/index.ts"
+import { evaluate } from "../evaluate/index.ts"
 import { formatTypeScheme } from "../format/index.ts"
-import { inferTypeScheme } from "../infer/infer.ts"
+import { inferTypeScheme } from "../infer/index.ts"
+import type { Mod } from "../mod/index.ts"
 import { modDefine, modFind, modResolve, modToCtx } from "../mod/index.ts"
-import type { Mod } from "../mod/Mod.ts"
-import type { ImportEntry, Stmt } from "../stmt/Stmt.ts"
+import type { ImportEntry, Stmt } from "../stmt/index.ts"
 import { run } from "./run.ts"
 
 export function define(mod: Mod, stmt: Stmt): null {
@@ -11,11 +13,12 @@ export function define(mod: Mod, stmt: Stmt): null {
       const ctx = modToCtx(mod)
       const typeScheme = inferTypeScheme(ctx, stmt.exp)
       console.log(`(claim ${stmt.name} ${formatTypeScheme(typeScheme)})`)
-
+      const value = evaluate(mod, envEmpty(), stmt.exp)
       modDefine(mod, stmt.name, {
         mod,
         name: stmt.name,
         exp: stmt.exp,
+        value,
         typeScheme,
       })
 

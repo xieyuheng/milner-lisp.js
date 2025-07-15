@@ -7,6 +7,6 @@ export type Def = {
   mod: Mod
   name: string
   exp: Exp
+  value: Value
   typeScheme?: TypeScheme
-  value?: Value
 }

@@ -1,5 +1,3 @@
-remove `evaluateDef`
-
 builtin support
 
 support string-t
