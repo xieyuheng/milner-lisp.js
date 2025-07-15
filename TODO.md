@@ -1,4 +1,4 @@
-mv `assertAllNamesDefined` to `run`
+mv `importOne` to `define`
 simple `ReadbackCtx`
 
 builtin support
