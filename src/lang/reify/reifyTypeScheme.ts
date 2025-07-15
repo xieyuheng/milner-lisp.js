@@ -1,6 +1,6 @@
 import {
+  emptySubst,
   substDeepWalk,
-  substEmpty,
   substLength,
   substUpdate,
   type Subst,
@@ -20,7 +20,7 @@ export function reifyTypeScheme(typeScheme: TypeScheme): TypeScheme {
 }
 
 function prepareSubst(names: Array<string>): Subst {
-  let subst = substEmpty()
+  let subst = emptySubst()
   for (const name of names) {
     const newName = numberToReadableName(substLength(subst))
     subst = substUpdate(subst, name, Types.TypeVar(newName))

@@ -2,9 +2,9 @@ import { ctxFind, ctxUpdate, type Ctx } from "../ctx/index.ts"
 import type { Exp } from "../exp/index.ts"
 import { reifyTypeScheme } from "../reify/reifyTypeScheme.ts"
 import {
+  emptySubst,
   substComposeMany,
   substDeepWalk,
-  substEmpty,
   substOnCtx,
   type Subst,
 } from "../subst/index.ts"
@@ -30,7 +30,7 @@ export function infer(ctx: Ctx, exp: Exp): [Subst, Type] {
     case "Var": {
       const typeScheme = ctxFind(ctx, exp.name)
       if (!typeScheme) throw new Error(`[infer] undefined name: ${exp.name}`)
-      return [substEmpty(), typeSchemeGen(typeScheme)]
+      return [emptySubst(), typeSchemeGen(typeScheme)]
     }
 
     case "Apply": {
@@ -40,7 +40,7 @@ export function infer(ctx: Ctx, exp: Exp): [Subst, Type] {
       const lastSubst = unifyType(
         substDeepWalk(argSubst, targetType),
         Types.Arrow(argType, retType),
-      )(substEmpty())
+      )(emptySubst())
       if (!lastSubst) throw new Error("[infer] fail on apply")
 
       return [

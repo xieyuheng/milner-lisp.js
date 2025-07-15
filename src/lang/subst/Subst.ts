@@ -10,7 +10,7 @@ import { typeSchemeRefresh, type Type, type TypeScheme } from "../type/index.ts"
 
 export type Subst = Map<string, Type>
 
-export function substEmpty(): Subst {
+export function emptySubst(): Subst {
   return new Map()
 }
 
@@ -115,6 +115,6 @@ export function substCompose(nextSubst: Subst, subst: Subst): Subst {
 export function substComposeMany(substArray: Array<Subst>): Subst {
   return substArray.reduceRight(
     (resultSubst, subst) => substCompose(subst, resultSubst),
-    substEmpty(),
+    emptySubst(),
   )
 }
