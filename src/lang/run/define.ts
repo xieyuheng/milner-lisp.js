@@ -1,4 +1,3 @@
-import { expFreeNames } from "../exp/expFreeNames.ts"
 import { formatTypeScheme } from "../format/index.ts"
 import { inferTypeScheme } from "../infer/infer.ts"
 import { modDefine, modFind, modResolve, modToCtx } from "../mod/index.ts"
@@ -17,7 +16,6 @@ export function define(mod: Mod, stmt: Stmt): null {
         mod,
         name: stmt.name,
         exp: stmt.exp,
-        freeNames: expFreeNames(new Set(), stmt.exp),
         typeScheme,
       })
 

@@ -1,5 +1,6 @@
-import type { Def } from "../def/Def.ts"
-import { formatExp } from "../format/formatExp.ts"
+import type { Def } from "../def/index.ts"
+import { expFreeNames } from "../exp/index.ts"
+import { formatExp } from "../format/index.ts"
 import { modFind, modOwnDefs, type Mod } from "../mod/index.ts"
 import { define } from "./define.ts"
 import { execute } from "./execute.ts"
@@ -17,7 +18,8 @@ export function run(mod: Mod): void {
 }
 
 function assertAllNamesDefined(mod: Mod, def: Def): void {
-  for (const name of def.freeNames) {
+  const freeNames = expFreeNames(new Set(), def.exp)
+  for (const name of freeNames) {
     if (modFind(mod, name) === undefined) {
       throw new Error(
         [
