@@ -1,4 +1,3 @@
-rename `runMod` to `run`
 mv `assertAllNamesDefined` to `run`
 simple `ReadbackCtx`
 
