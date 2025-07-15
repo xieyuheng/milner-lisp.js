@@ -4,9 +4,9 @@ import { evaluate } from "../evaluate/index.ts"
 import { type Value } from "../value/index.ts"
 
 export function evaluateDef(def: Def): Value {
-  if (def.cache !== undefined) {
-    return def.cache
+  if (def.value !== undefined) {
+    return def.value
   }
 
-  return (def.cache = evaluate(def.mod, envEmpty(), def.exp))
+  return (def.value = evaluate(def.mod, envEmpty(), def.exp))
 }

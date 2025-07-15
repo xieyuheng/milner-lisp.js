@@ -8,5 +8,5 @@ export type Def = {
   name: string
   exp: Exp
   typeScheme?: TypeScheme
-  cache?: Value
+  value?: Value
 }
