@@ -6,28 +6,11 @@ import * as Neutrals from "../value/index.ts"
 import * as Values from "../value/index.ts"
 import { type Neutral, type Value } from "../value/index.ts"
 
-export class ReadbackCtx {
+type Ctx = {
   usedNames: Set<string>
-
-  constructor(options: { usedNames: Set<string> }) {
-    this.usedNames = options.usedNames
-  }
-
-  static init(): ReadbackCtx {
-    return new ReadbackCtx({
-      usedNames: new Set(),
-    })
-  }
-
-  useName(name: string): ReadbackCtx {
-    return new ReadbackCtx({
-      ...this,
-      usedNames: new Set([...this.usedNames, name]),
-    })
-  }
 }
 
-export function readback(ctx: ReadbackCtx, value: Value): Exp {
+export function readback(ctx: Ctx, value: Value): Exp {
   switch (value.kind) {
     case "NotYet": {
       return readbackNeutral(ctx, value.neutral)
@@ -35,7 +18,10 @@ export function readback(ctx: ReadbackCtx, value: Value): Exp {
 
     case "Lambda": {
       const freshName = freshen(ctx.usedNames, value.name)
-      ctx = ctx.useName(freshName)
+      ctx = {
+        ...ctx,
+        usedNames: new Set([...ctx.usedNames, freshName]),
+      }
       const arg = Values.NotYet(Neutrals.Var(freshName))
       const ret = apply(value, arg)
       return Exps.Lambda(freshName, readback(ctx, ret))
@@ -43,7 +29,7 @@ export function readback(ctx: ReadbackCtx, value: Value): Exp {
   }
 }
 
-function readbackNeutral(ctx: ReadbackCtx, neutral: Neutral): Exp {
+function readbackNeutral(ctx: Ctx, neutral: Neutral): Exp {
   switch (neutral.kind) {
     case "Var": {
       return Exps.Var(neutral.name)

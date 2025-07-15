@@ -8,6 +8,5 @@ export function evaluateDef(def: Def): Value {
     return def.cache
   }
 
-  def.cache = evaluate(def.mod, envEmpty(), def.exp)
-  return def.cache
+  return (def.cache = evaluate(def.mod, envEmpty(), def.exp))
 }
