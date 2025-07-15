@@ -1,7 +1,7 @@
 import { type Command } from "@xieyuheng/commander.js"
 import fs from "fs"
 import Path from "path"
-import { run } from "../lang/run/index.ts"
+import { runUrl } from "../lang/run/index.ts"
 
 export const runCommand: Command = {
   name: "run",
@@ -19,7 +19,7 @@ export const runCommand: Command = {
     const url = createURL(String(commander.args[0]))
 
     try {
-      await run(url)
+      await runUrl(url)
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message)
