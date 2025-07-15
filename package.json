@@ -1,6 +1,6 @@
 {
   "name": "@cicada-lang/hindley-milner.js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": "github:cicada-lang/hindley-milner.js",
   "license": "GPL-3.0-or-later",
   "type": "module",
