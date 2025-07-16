@@ -3,7 +3,6 @@ import type { Exp } from "../exp/index.ts"
 import { reifyTypeScheme } from "../reify/reifyTypeScheme.ts"
 import {
   emptySubst,
-  substComposeMany,
   substDeepWalk,
   substOnCtx,
   type Subst,
@@ -19,54 +18,45 @@ import {
 import { unifyType } from "../unify/index.ts"
 
 export function inferTypeScheme(ctx: Ctx, exp: Exp): TypeScheme {
-  const [subst, type] = infer(ctx, exp)
+  const state = { subst: emptySubst() }
+  const type = infer(ctx, state, exp)
   return reifyTypeScheme(
-    typeClosure(substOnCtx(subst, ctx), substDeepWalk(subst, type)),
+    typeClosure(substOnCtx(state.subst, ctx), substDeepWalk(state.subst, type)),
   )
 }
 
-export function infer(ctx: Ctx, exp: Exp): [Subst, Type] {
+type State = { subst: Subst }
+
+function infer(ctx: Ctx, state: State, exp: Exp): Type {
   switch (exp.kind) {
     case "Var": {
       const typeScheme = ctxFind(ctx, exp.name)
       if (!typeScheme) throw new Error(`[infer] undefined name: ${exp.name}`)
-      return [emptySubst(), typeSchemeGen(typeScheme)]
+      return typeSchemeGen(typeScheme)
     }
 
     case "Apply": {
-      const [targetSubst, targetType] = infer(ctx, exp.target)
-      const [argSubst, argType] = infer(substOnCtx(targetSubst, ctx), exp.arg)
+      const targetType = infer(ctx, state, exp.target)
+      const argType = infer(ctx, state, exp.arg)
       const retType = typeVarGen()
-      const lastSubst = unifyType(
-        substDeepWalk(argSubst, targetType),
-        Types.Arrow(argType, retType),
-      )(emptySubst())
-      if (!lastSubst) throw new Error("[infer] fail on apply")
-
-      return [
-        substComposeMany([lastSubst, argSubst, targetSubst]),
-        substDeepWalk(lastSubst, retType),
-      ]
+      const effect = unifyType(targetType, Types.Arrow(argType, retType))
+      const nextSubst = effect(state.subst)
+      if (!nextSubst) throw new Error("[infer] fail on apply")
+      state.subst = nextSubst
+      return retType
     }
 
     case "Lambda": {
       const argType = typeVarGen()
-      const [retSubst, retType] = infer(
-        ctxUpdate(ctx, exp.name, argType),
-        exp.ret,
-      )
-      return [retSubst, Types.Arrow(argType, retType)]
+      const retType = infer(ctxUpdate(ctx, exp.name, argType), state, exp.ret)
+      return Types.Arrow(argType, retType)
     }
 
     case "Let": {
-      const [rhsSubst, rhsType] = infer(ctx, exp.rhs)
-      const rhsTypeScheme = typeClosure(substOnCtx(rhsSubst, ctx), rhsType)
-      const bodyCtx = substOnCtx(
-        rhsSubst,
-        ctxUpdate(ctx, exp.name, rhsTypeScheme),
-      )
-      const [bodySubst, bodyType] = infer(bodyCtx, exp.body)
-      return [substComposeMany([bodySubst, rhsSubst]), bodyType]
+      const rhsType = infer(ctx, state, exp.rhs)
+      const rhsTypeScheme = typeClosure(substOnCtx(state.subst, ctx), rhsType)
+      const bodyCtx = ctxUpdate(ctx, exp.name, rhsTypeScheme)
+      return infer(bodyCtx, state, exp.body)
     }
   }
 }
