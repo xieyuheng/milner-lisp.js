@@ -16,9 +16,9 @@ import {
 } from "../type/index.ts"
 import { unifyType } from "../unify/index.ts"
 
-export function inferType(ctx: Ctx, exp: Exp): Type {
+export function infer(ctx: Ctx, exp: Exp): Type {
   const state = { subst: emptySubst() }
-  const type = infer(ctx, state, exp)
+  const type = inferring(ctx, state, exp)
   return reifyType(
     createNuInCtx(
       substOnCtx(state.subst, ctx),
@@ -29,7 +29,7 @@ export function inferType(ctx: Ctx, exp: Exp): Type {
 
 type State = { subst: Subst }
 
-function infer(ctx: Ctx, state: State, exp: Exp): Type {
+function inferring(ctx: Ctx, state: State, exp: Exp): Type {
   switch (exp.kind) {
     case "Var": {
       const type = ctxFind(ctx, exp.name)
@@ -38,8 +38,8 @@ function infer(ctx: Ctx, state: State, exp: Exp): Type {
     }
 
     case "Apply": {
-      const targetType = infer(ctx, state, exp.target)
-      const argType = infer(ctx, state, exp.arg)
+      const targetType = inferring(ctx, state, exp.target)
+      const argType = inferring(ctx, state, exp.arg)
       const retType = typeVarGen()
       const effect = unifyType(targetType, Types.Arrow(argType, retType))
       const nextSubst = effect(state.subst)
@@ -50,15 +50,19 @@ function infer(ctx: Ctx, state: State, exp: Exp): Type {
 
     case "Lambda": {
       const argType = typeVarGen()
-      const retType = infer(ctxUpdate(ctx, exp.name, argType), state, exp.ret)
+      const retType = inferring(
+        ctxUpdate(ctx, exp.name, argType),
+        state,
+        exp.ret,
+      )
       return Types.Arrow(argType, retType)
     }
 
     case "Let": {
-      const rhsType = infer(ctx, state, exp.rhs)
+      const rhsType = inferring(ctx, state, exp.rhs)
       const rhsNu = createNuInCtx(substOnCtx(state.subst, ctx), rhsType)
       const bodyCtx = ctxUpdate(ctx, exp.name, rhsNu)
-      return infer(bodyCtx, state, exp.body)
+      return inferring(bodyCtx, state, exp.body)
     }
   }
 }

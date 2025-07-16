@@ -1,4 +1,4 @@
-merge only call `typeGen` in `unifyType`
+merge only call `typeRemoveNu` in `unifyType`
 
 builtin support
 
