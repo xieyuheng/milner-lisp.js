@@ -1,5 +1,3 @@
-merge only call `typeRemoveNu` in `unifyType`
-
 builtin support
 
 support string-t
