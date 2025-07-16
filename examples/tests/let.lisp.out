@@ -1,1 +1,3 @@
 (the (nu (A) (-> A A)) (lambda (x) x))
+(the (nu (A) (-> A A)) (lambda (x) x))
+(the (nu (A) (-> A A)) (lambda (x) x))
