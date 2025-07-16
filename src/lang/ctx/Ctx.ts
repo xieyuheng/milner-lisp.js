@@ -1,7 +1,7 @@
 import { setUnionMany } from "../../utils/set/index.ts"
-import { typeSchemeFreeNames, type TypeScheme } from "../type/index.ts"
+import { typeFreeNames, type Type } from "../type/index.ts"
 
-export type Ctx = Map<string, TypeScheme>
+export type Ctx = Map<string, Type>
 
 export function emptyCtx(): Ctx {
   return new Map()
@@ -11,18 +11,18 @@ export function ctxNames(ctx: Ctx): Array<string> {
   return Array.from(ctx.keys())
 }
 
-export function ctxTypeSchemes(ctx: Ctx): Array<TypeScheme> {
+export function ctxTypeSchemes(ctx: Ctx): Array<Type> {
   return Array.from(ctx.values())
 }
 
-export function ctxFind(ctx: Ctx, name: string): undefined | TypeScheme {
+export function ctxFind(ctx: Ctx, name: string): undefined | Type {
   return ctx.get(name)
 }
 
-export function ctxUpdate(ctx: Ctx, name: string, typeScheme: TypeScheme): Ctx {
-  return new Map([...ctx, [name, typeScheme]])
+export function ctxUpdate(ctx: Ctx, name: string, type: Type): Ctx {
+  return new Map([...ctx, [name, type]])
 }
 
 export function ctxFreeTypeNames(ctx: Ctx): Set<string> {
-  return setUnionMany(ctxTypeSchemes(ctx).map(typeSchemeFreeNames))
+  return setUnionMany(ctxTypeSchemes(ctx).map(typeFreeNames))
 }

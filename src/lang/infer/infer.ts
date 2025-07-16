@@ -1,6 +1,6 @@
 import { ctxFind, ctxUpdate, type Ctx } from "../ctx/index.ts"
 import type { Exp } from "../exp/index.ts"
-import { reifyTypeScheme } from "../reify/reifyTypeScheme.ts"
+import { reifyType } from "../reify/reifyType.ts"
 import {
   emptySubst,
   substDeepWalk,
@@ -8,19 +8,13 @@ import {
   type Subst,
 } from "../subst/index.ts"
 import * as Types from "../type/index.ts"
-import {
-  typeClosure,
-  typeSchemeGen,
-  typeVarGen,
-  type Type,
-  type TypeScheme,
-} from "../type/index.ts"
+import { typeClosure, typeGen, typeVarGen, type Type } from "../type/index.ts"
 import { unifyType } from "../unify/index.ts"
 
-export function inferTypeScheme(ctx: Ctx, exp: Exp): TypeScheme {
+export function inferType(ctx: Ctx, exp: Exp): Type {
   const state = { subst: emptySubst() }
   const type = infer(ctx, state, exp)
-  return reifyTypeScheme(
+  return reifyType(
     typeClosure(substOnCtx(state.subst, ctx), substDeepWalk(state.subst, type)),
   )
 }
@@ -30,9 +24,9 @@ type State = { subst: Subst }
 function infer(ctx: Ctx, state: State, exp: Exp): Type {
   switch (exp.kind) {
     case "Var": {
-      const typeScheme = ctxFind(ctx, exp.name)
-      if (!typeScheme) throw new Error(`[infer] undefined name: ${exp.name}`)
-      return typeSchemeGen(typeScheme)
+      const type = ctxFind(ctx, exp.name)
+      if (!type) throw new Error(`[infer] undefined name: ${exp.name}`)
+      return typeGen(type)
     }
 
     case "Apply": {

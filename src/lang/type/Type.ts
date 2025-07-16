@@ -3,10 +3,11 @@ import { setDifference, setUnion, setUnionMany } from "../../utils/set/index.ts"
 import { ctxFreeTypeNames, type Ctx } from "../ctx/index.ts"
 import { emptySubst, substDeepWalk, substUpdate } from "../subst/index.ts"
 
-export type Type = TypeVar | Datatype | Arrow
+export type Type = TypeVar | Datatype | Arrow | Nu
 export type TypeVar = { kind: "TypeVar"; name: string }
 export type Datatype = { kind: "Datatype"; name: string; args: Array<Type> }
 export type Arrow = { kind: "Arrow"; argType: Type; retType: Type }
+export type Nu = { kind: "Nu"; names: Array<string>; type: Type }
 
 export function TypeVar(name: string): TypeVar {
   return { kind: "TypeVar", name }
@@ -20,9 +21,6 @@ export function Arrow(argType: Type, retType: Type): Arrow {
   return { kind: "Arrow", argType, retType }
 }
 
-export type TypeScheme = Type | Nu
-export type Nu = { kind: "Nu"; names: Array<string>; type: Type }
-
 export function Nu(names: Array<string>, type: Type): Nu {
   return { kind: "Nu", names, type }
 }
@@ -31,29 +29,25 @@ export function typeVarGen(): TypeVar {
   return TypeVar(globalFreshen("t"))
 }
 
-export function typeSchemeRefresh(typeScheme: TypeScheme): TypeScheme {
-  if (typeScheme.kind === "Nu") {
-    let freshNames = []
-    let subst = emptySubst()
-    for (const name of typeScheme.names) {
-      const freshName = globalFreshen("t")
-      freshNames.push(freshName)
-      subst = substUpdate(subst, name, TypeVar(freshName))
-    }
-
-    return Nu(freshNames, substDeepWalk(subst, typeScheme.type))
+export function nuRefresh(type: Nu): Nu {
+  let freshNames = []
+  let subst = emptySubst()
+  for (const name of type.names) {
+    const freshName = globalFreshen("t")
+    freshNames.push(freshName)
+    subst = substUpdate(subst, name, TypeVar(freshName))
   }
 
-  return typeScheme
+  return Nu(freshNames, substDeepWalk(subst, type.type))
 }
 
-export function typeSchemeGen(typeScheme: TypeScheme): Type {
-  typeScheme = typeSchemeRefresh(typeScheme)
-  if (typeScheme.kind === "Nu") {
-    return typeScheme.type
+export function typeGen(type: Type): Type {
+  if (type.kind === "Nu") {
+    type = nuRefresh(type)
+    return type.type
   }
 
-  return typeScheme
+  return type
 }
 
 export function typeFreeNames(type: Type): Set<string> {
@@ -69,21 +63,14 @@ export function typeFreeNames(type: Type): Set<string> {
     case "Arrow": {
       return setUnion(typeFreeNames(type.argType), typeFreeNames(type.retType))
     }
+
+    case "Nu": {
+      return setDifference(typeFreeNames(type.type), new Set(type.names))
+    }
   }
 }
 
-export function typeSchemeFreeNames(typeScheme: TypeScheme): Set<string> {
-  if (typeScheme.kind === "Nu") {
-    return setDifference(
-      typeFreeNames(typeScheme.type),
-      new Set(typeScheme.names),
-    )
-  }
-
-  return typeFreeNames(typeScheme)
-}
-
-export function typeClosure(ctx: Ctx, type: Type): TypeScheme {
+export function typeClosure(ctx: Ctx, type: Type): Type {
   const freeNames = setDifference(typeFreeNames(type), ctxFreeTypeNames(ctx))
   return Nu(Array.from(freeNames), type)
 }

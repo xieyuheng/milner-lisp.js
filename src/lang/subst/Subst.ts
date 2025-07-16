@@ -6,7 +6,7 @@ import {
   type Ctx,
 } from "../ctx/index.ts"
 import * as Types from "../type/index.ts"
-import { typeSchemeRefresh, type Type, type TypeScheme } from "../type/index.ts"
+import { nuRefresh, type Type } from "../type/index.ts"
 
 export type Subst = Map<string, Type>
 
@@ -75,27 +75,20 @@ export function substDeepWalk(subst: Subst, type: Type): Type {
         substDeepWalk(subst, type.retType),
       )
     }
-  }
-}
 
-export function substOnTypeScheme(
-  subst: Subst,
-  typeScheme: TypeScheme,
-): TypeScheme {
-  typeScheme = typeSchemeRefresh(typeScheme)
-  if (typeScheme.kind === "Nu") {
-    return Types.Nu(typeScheme.names, substDeepWalk(subst, typeScheme.type))
+    case "Nu": {
+      type = nuRefresh(type)
+      return Types.Nu(type.names, substDeepWalk(subst, type.type))
+    }
   }
-
-  return substDeepWalk(subst, typeScheme)
 }
 
 export function substOnCtx(subst: Subst, ctx: Ctx): Ctx {
   let resultCtx = emptyCtx()
   for (const name of ctxNames(ctx)) {
-    const typeScheme = ctxFind(ctx, name)
-    if (!typeScheme) throw new Error("[substOnCtx] internal error")
-    resultCtx = ctxUpdate(resultCtx, name, substOnTypeScheme(subst, typeScheme))
+    const type = ctxFind(ctx, name)
+    if (!type) throw new Error("[substOnCtx] internal error")
+    resultCtx = ctxUpdate(resultCtx, name, substDeepWalk(subst, type))
   }
 
   return resultCtx

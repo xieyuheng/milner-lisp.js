@@ -1,1 +1,1 @@
-export * from "./reifyTypeScheme.ts"
+export * from "./reifyType.ts"

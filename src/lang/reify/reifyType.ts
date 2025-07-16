@@ -6,16 +6,16 @@ import {
   type Subst,
 } from "../subst/index.ts"
 import * as Types from "../type/index.ts"
-import { type TypeScheme } from "../type/index.ts"
+import { type Type } from "../type/index.ts"
 
-export function reifyTypeScheme(typeScheme: TypeScheme): TypeScheme {
-  if (typeScheme.kind !== "Nu") return typeScheme
+export function reifyType(type: Type): Type {
+  if (type.kind !== "Nu") return type
 
-  const renamingSubst = prepareSubst(typeScheme.names)
+  const renamingSubst = prepareSubst(type.names)
 
   return Types.Nu(
-    prepareNewNames(typeScheme.names),
-    substDeepWalk(renamingSubst, typeScheme.type),
+    prepareNewNames(type.names),
+    substDeepWalk(renamingSubst, type.type),
   )
 }
 
