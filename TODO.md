@@ -1,3 +1,5 @@
+merge only call `typeGen` in `unifyType`
+
 builtin support
 
 support string-t

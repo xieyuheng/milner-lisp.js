@@ -11,7 +11,7 @@ export function ctxNames(ctx: Ctx): Array<string> {
   return Array.from(ctx.keys())
 }
 
-export function ctxTypeSchemes(ctx: Ctx): Array<Type> {
+export function ctxTypes(ctx: Ctx): Array<Type> {
   return Array.from(ctx.values())
 }
 
@@ -24,5 +24,5 @@ export function ctxUpdate(ctx: Ctx, name: string, type: Type): Ctx {
 }
 
 export function ctxFreeTypeNames(ctx: Ctx): Set<string> {
-  return setUnionMany(ctxTypeSchemes(ctx).map(typeFreeNames))
+  return setUnionMany(ctxTypes(ctx).map(typeFreeNames))
 }

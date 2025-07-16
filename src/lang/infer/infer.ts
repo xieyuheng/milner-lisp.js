@@ -8,14 +8,17 @@ import {
   type Subst,
 } from "../subst/index.ts"
 import * as Types from "../type/index.ts"
-import { typeClosure, typeGen, typeVarGen, type Type } from "../type/index.ts"
+import { createNuInCtx, typeGen, typeVarGen, type Type } from "../type/index.ts"
 import { unifyType } from "../unify/index.ts"
 
 export function inferType(ctx: Ctx, exp: Exp): Type {
   const state = { subst: emptySubst() }
   const type = infer(ctx, state, exp)
   return reifyType(
-    typeClosure(substOnCtx(state.subst, ctx), substDeepWalk(state.subst, type)),
+    createNuInCtx(
+      substOnCtx(state.subst, ctx),
+      substDeepWalk(state.subst, type),
+    ),
   )
 }
 
@@ -48,8 +51,8 @@ function infer(ctx: Ctx, state: State, exp: Exp): Type {
 
     case "Let": {
       const rhsType = infer(ctx, state, exp.rhs)
-      const rhsTypeScheme = typeClosure(substOnCtx(state.subst, ctx), rhsType)
-      const bodyCtx = ctxUpdate(ctx, exp.name, rhsTypeScheme)
+      const rhsNu = createNuInCtx(substOnCtx(state.subst, ctx), rhsType)
+      const bodyCtx = ctxUpdate(ctx, exp.name, rhsNu)
       return infer(bodyCtx, state, exp.body)
     }
   }

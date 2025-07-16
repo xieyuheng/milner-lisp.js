@@ -70,7 +70,7 @@ export function typeFreeNames(type: Type): Set<string> {
   }
 }
 
-export function typeClosure(ctx: Ctx, type: Type): Type {
+export function createNuInCtx(ctx: Ctx, type: Type): Type {
   const freeNames = setDifference(typeFreeNames(type), ctxFreeTypeNames(ctx))
   return Nu(Array.from(freeNames), type)
 }
