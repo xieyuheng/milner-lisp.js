@@ -8,7 +8,12 @@ import {
   type Subst,
 } from "../subst/index.ts"
 import * as Types from "../type/index.ts"
-import { createNuInCtx, typeGen, typeVarGen, type Type } from "../type/index.ts"
+import {
+  createNuInCtx,
+  typeRemoveNu,
+  typeVarGen,
+  type Type,
+} from "../type/index.ts"
 import { unifyType } from "../unify/index.ts"
 
 export function inferType(ctx: Ctx, exp: Exp): Type {
@@ -29,7 +34,7 @@ function infer(ctx: Ctx, state: State, exp: Exp): Type {
     case "Var": {
       const type = ctxFind(ctx, exp.name)
       if (!type) throw new Error(`[infer] undefined name: ${exp.name}`)
-      return typeGen(type)
+      return typeRemoveNu(type)
     }
 
     case "Apply": {

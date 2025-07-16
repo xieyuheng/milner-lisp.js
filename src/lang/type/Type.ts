@@ -25,8 +25,18 @@ export function Nu(names: Array<string>, type: Type): Nu {
   return { kind: "Nu", names, type }
 }
 
-export function typeVarGen(): TypeVar {
-  return TypeVar(globalFreshen("t"))
+export function createNuInCtx(ctx: Ctx, type: Type): Type {
+  const freeNames = setDifference(typeFreeNames(type), ctxFreeTypeNames(ctx))
+  return Nu(Array.from(freeNames), type)
+}
+
+export function typeRemoveNu(type: Type): Type {
+  if (type.kind === "Nu") {
+    type = nuRefresh(type)
+    return type.type
+  }
+
+  return type
 }
 
 export function nuRefresh(type: Nu): Nu {
@@ -41,13 +51,8 @@ export function nuRefresh(type: Nu): Nu {
   return Nu(freshNames, substDeepWalk(subst, type.type))
 }
 
-export function typeGen(type: Type): Type {
-  if (type.kind === "Nu") {
-    type = nuRefresh(type)
-    return type.type
-  }
-
-  return type
+export function typeVarGen(): TypeVar {
+  return TypeVar(globalFreshen("t"))
 }
 
 export function typeFreeNames(type: Type): Set<string> {
@@ -68,9 +73,4 @@ export function typeFreeNames(type: Type): Set<string> {
       return setDifference(typeFreeNames(type.type), new Set(type.names))
     }
   }
-}
-
-export function createNuInCtx(ctx: Ctx, type: Type): Type {
-  const freeNames = setDifference(typeFreeNames(type), ctxFreeTypeNames(ctx))
-  return Nu(Array.from(freeNames), type)
 }
