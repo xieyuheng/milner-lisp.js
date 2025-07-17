@@ -1,3 +1,5 @@
+inline `run` to `load`
+
 builtin support
 
 support string-t
