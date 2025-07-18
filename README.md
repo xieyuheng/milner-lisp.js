@@ -31,7 +31,7 @@ Inferred:
 Install it by the following command:
 
 ```sh
-npm install -g @cicada-lang/hindley-milner.js
+npm install -g @xieyuheng/hindley-milner.js
 ```
 
 The command-line program is called `hindley-milner.js`.
