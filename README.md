@@ -1,4 +1,4 @@
-# hindley-milner.js
+# milner-lisp.js
 
 To practics implementing Hindley-Milner type system.
 
@@ -31,10 +31,10 @@ Inferred:
 Install it by the following command:
 
 ```sh
-npm install -g @xieyuheng/hindley-milner.js
+npm install -g @xieyuheng/milner-lisp.js
 ```
 
-The command-line program is called `hindley-milner.js`.
+The command-line program is called `milner-lisp.js`.
 
 ## Development
 

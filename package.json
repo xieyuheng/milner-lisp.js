@@ -1,7 +1,7 @@
 {
-  "name": "@xieyuheng/hindley-milner.js",
+  "name": "@xieyuheng/milner-lisp.js",
   "version": "0.1.2",
-  "repository": "github:xieyuheng/hindley-milner.js",
+  "repository": "github:xieyuheng/milner-lisp.js",
   "license": "GPL-3.0-or-later",
   "type": "module",
   "main": "./lib/index.js",
