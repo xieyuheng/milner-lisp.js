@@ -4,7 +4,7 @@ import {
   ctxUpdate,
   emptyCtx,
   type Ctx,
-} from "../ctx/index.ts"
+} from "../infer/Ctx.ts"
 import * as Types from "../type/index.ts"
 import { nuRefresh, type Type } from "../type/index.ts"
 

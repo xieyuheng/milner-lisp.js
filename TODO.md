@@ -1,5 +1,5 @@
 move `Subst` to `infer/`
-mv `Ctx` to `infer/`
+`ctxFromMod` instead of `modToCtx`
 
 # builtin
 

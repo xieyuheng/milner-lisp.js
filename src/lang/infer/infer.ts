@@ -1,4 +1,4 @@
-import { ctxFind, ctxUpdate, type Ctx } from "../ctx/index.ts"
+import { ctxFind, ctxUpdate, type Ctx } from "./Ctx.ts"
 import type { Exp } from "../exp/index.ts"
 import { reifyType } from "../reify/reifyType.ts"
 import {

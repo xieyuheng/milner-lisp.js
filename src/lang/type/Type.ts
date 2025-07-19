@@ -1,6 +1,6 @@
 import { globalFreshen } from "../../utils/name/globalFreshen.ts"
 import { setDifference, setUnion, setUnionMany } from "../../utils/set/Set.ts"
-import { ctxFreeTypeNames, type Ctx } from "../ctx/index.ts"
+import { ctxFreeTypeNames, type Ctx } from "../infer/Ctx.ts"
 import { emptySubst, substDeepWalk, substUpdate } from "../subst/index.ts"
 
 export type Type = TypeVar | Datatype | Arrow | Nu

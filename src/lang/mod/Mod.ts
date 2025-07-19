@@ -1,4 +1,4 @@
-import { ctxUpdate, emptyCtx, type Ctx } from "../ctx/index.ts"
+import { ctxUpdate, emptyCtx, type Ctx } from "../infer/Ctx.ts"
 import { type Exp } from "../exp/index.ts"
 import { type Stmt } from "../stmt/index.ts"
 import { type Type } from "../type/index.ts"
