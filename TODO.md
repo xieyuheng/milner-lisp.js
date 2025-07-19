@@ -1,3 +1,6 @@
+readbackInCtx
+readback
+
 move `Subst` to `infer/`
 mv `Ctx` to `infer/`
 
@@ -14,6 +17,10 @@ support float-t
 
 [type] parse type -- support `the`
 [type] support `check`
+
+# syntax
+
+`let-one` vs `let*` -- no `let`
 
 # module
 
