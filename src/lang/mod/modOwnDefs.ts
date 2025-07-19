@@ -1,5 +1,4 @@
-import type { Def } from "../def/Def.ts"
-import type { Mod } from "./Mod.ts"
+import type { Def, Mod } from "./Mod.ts"
 
 export function modOwnDefs(mod: Mod): Map<string, Def> {
   const ownDefs = new Map()

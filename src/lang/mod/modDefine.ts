@@ -1,5 +1,4 @@
-import type { Def } from "../def/Def.ts"
-import type { Mod } from "./Mod.ts"
+import type { Def, Mod } from "./Mod.ts"
 import { modFind } from "./modFind.ts"
 
 export function modDefine(mod: Mod, name: string, def: Def): void {

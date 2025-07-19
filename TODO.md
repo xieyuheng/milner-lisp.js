@@ -1,3 +1,6 @@
+move all mod functions to `Mod.ts`
+move `apply` to `evaluate/`
+
 # builtin
 
 builtin support

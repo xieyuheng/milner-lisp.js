@@ -1,4 +1,4 @@
-import type { Def } from "../def/index.ts"
+import type { Def } from "../mod/index.ts"
 import { expFreeNames } from "../exp/index.ts"
 import { formatExp } from "../format/index.ts"
 import { modFind, modOwnDefs, type Mod } from "../mod/index.ts"
