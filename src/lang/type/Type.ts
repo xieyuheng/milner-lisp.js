@@ -1,5 +1,5 @@
-import { globalFreshen } from "../../utils/globalFreshen.ts"
-import { setDifference, setUnion, setUnionMany } from "../../utils/set/index.ts"
+import { globalFreshen } from "../../utils/name/globalFreshen.ts"
+import { setDifference, setUnion, setUnionMany } from "../../utils/set/Set.ts"
 import { ctxFreeTypeNames, type Ctx } from "../ctx/index.ts"
 import { emptySubst, substDeepWalk, substUpdate } from "../subst/index.ts"
 

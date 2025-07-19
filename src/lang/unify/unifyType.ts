@@ -1,4 +1,4 @@
-import { arrayZip } from "../../utils/arrayZip.ts"
+import { arrayZip } from "../../utils/array/arrayZip.ts"
 import { substUpdate, substWalk, type Subst } from "../subst/index.ts"
 import type { Type } from "../type/index.ts"
 

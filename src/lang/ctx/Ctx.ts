@@ -1,4 +1,4 @@
-import { setUnionMany } from "../../utils/set/index.ts"
+import { setUnionMany } from "../../utils/set/Set.ts"
 import { typeFreeNames, type Type } from "../type/index.ts"
 
 export type Ctx = Map<string, Type>

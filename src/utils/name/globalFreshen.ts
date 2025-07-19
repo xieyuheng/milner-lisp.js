@@ -1,4 +1,4 @@
-import { stringToSubscript } from "./stringToSubscript.ts"
+import { stringToSubscript } from "../string/stringToSubscript.ts"
 
 const nameCounts: Map<string, number> = new Map()
 
