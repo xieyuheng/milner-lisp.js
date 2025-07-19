@@ -1,4 +1,3 @@
-import { ctxUpdate, emptyCtx, type Ctx } from "../infer/Ctx.ts"
 import { type Exp } from "../exp/index.ts"
 import { type Stmt } from "../stmt/index.ts"
 import { type Type } from "../type/index.ts"
@@ -68,15 +67,4 @@ export function modOwnDefs(mod: Mod): Map<string, Def> {
   }
 
   return ownDefs
-}
-
-export function modToCtx(mod: Mod): Ctx {
-  let ctx = emptyCtx()
-  for (const [name, def] of mod.defs.entries()) {
-    if (def.type) {
-      ctx = ctxUpdate(ctx, name, def.type)
-    }
-  }
-
-  return ctx
 }

@@ -1,16 +1,17 @@
 import { emptyEnv } from "../env/index.ts"
 import { evaluate } from "../evaluate/index.ts"
 import { formatType } from "../format/index.ts"
+import { ctxFromMod } from "../infer/ctxFromMod.ts"
 import { infer } from "../infer/index.ts"
 import type { Mod } from "../mod/index.ts"
-import { modDefine, modFind, modResolve, modToCtx } from "../mod/index.ts"
+import { modDefine, modFind, modResolve } from "../mod/index.ts"
 import type { ImportEntry, Stmt } from "../stmt/index.ts"
 import { run } from "./run.ts"
 
 export function define(mod: Mod, stmt: Stmt): null {
   switch (stmt.kind) {
     case "Define": {
-      const ctx = modToCtx(mod)
+      const ctx = ctxFromMod(mod)
       const type = infer(ctx, stmt.exp)
       console.log(`(claim ${stmt.name} ${formatType(type)})`)
       const value = evaluate(mod, emptyEnv(), stmt.exp)

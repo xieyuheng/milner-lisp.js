@@ -1,4 +1,3 @@
-import { ctxFind, ctxUpdate, type Ctx } from "./Ctx.ts"
 import type { Exp } from "../exp/index.ts"
 import { reifyType } from "../reify/reifyType.ts"
 import {
@@ -14,6 +13,7 @@ import {
   typeVarGen,
   type Type,
 } from "../type/index.ts"
+import { ctxFind, ctxUpdate, type Ctx } from "./Ctx.ts"
 import { unifyType } from "./unifyType.ts"
 
 export function infer(ctx: Ctx, exp: Exp): Type {
