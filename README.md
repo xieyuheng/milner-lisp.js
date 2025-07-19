@@ -1,6 +1,6 @@
 # milner-lisp.js
 
-To practics implementing Hindley-Milner type system.
+An implementation of Hindley-Milner type system.
 
 ## Examples
 
