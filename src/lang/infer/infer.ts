@@ -14,7 +14,7 @@ import {
   typeVarGen,
   type Type,
 } from "../type/index.ts"
-import { unifyType } from "../unify/index.ts"
+import { unifyType } from "./unifyType.ts"
 
 export function infer(ctx: Ctx, exp: Exp): Type {
   const state = { subst: emptySubst() }
