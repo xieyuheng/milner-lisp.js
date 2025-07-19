@@ -25,7 +25,7 @@ export function Nu(names: Array<string>, type: Type): Nu {
   return { kind: "Nu", names, type }
 }
 
-export function createNuInCtx(ctx: Ctx, type: Type): Type {
+export function createNuInCtx(ctx: Ctx, type: Type): Nu {
   const freeNames = setDifference(typeFreeNames(type), ctxFreeTypeNames(ctx))
   return Nu(Array.from(freeNames), type)
 }
