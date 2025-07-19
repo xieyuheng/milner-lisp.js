@@ -8,35 +8,29 @@ import { modDefine, modFind, modResolve } from "../mod/index.ts"
 import type { ImportEntry, Stmt } from "../stmt/index.ts"
 import { run } from "./run.ts"
 
-export function define(mod: Mod, stmt: Stmt): null {
-  switch (stmt.kind) {
-    case "Define": {
-      const ctx = ctxFromMod(mod)
-      const type = infer(ctx, stmt.exp)
-      console.log(`(claim ${stmt.name} ${formatType(type)})`)
-      const value = evaluate(mod, emptyEnv(), stmt.exp)
-      modDefine(mod, stmt.name, {
-        mod,
-        name: stmt.name,
-        exp: stmt.exp,
-        value,
-        type: type,
-      })
+export function define(mod: Mod, stmt: Stmt): void {
+  if (stmt.kind === "Define") {
+    const ctx = ctxFromMod(mod)
+    const type = infer(ctx, stmt.exp)
+    console.log(`(claim ${stmt.name} ${formatType(type)})`)
+    const value = evaluate(mod, emptyEnv(), stmt.exp)
+    modDefine(mod, stmt.name, {
+      mod,
+      name: stmt.name,
+      exp: stmt.exp,
+      value,
+      type: type,
+    })
 
-      return null
+    return
+  }
+
+  if (stmt.kind === "Import") {
+    for (const entry of stmt.entries) {
+      importOne(mod, stmt.path, entry)
     }
 
-    case "Import": {
-      for (const entry of stmt.entries) {
-        importOne(mod, stmt.path, entry)
-      }
-
-      return null
-    }
-
-    default: {
-      return null
-    }
+    return
   }
 }
 
