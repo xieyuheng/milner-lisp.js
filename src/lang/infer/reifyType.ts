@@ -1,12 +1,12 @@
+import * as Types from "../type/index.ts"
+import { type Type } from "../type/index.ts"
 import {
   emptySubst,
   substDeepWalk,
   substLength,
   substUpdate,
   type Subst,
-} from "../infer/index.ts"
-import * as Types from "../type/index.ts"
-import { type Type } from "../type/index.ts"
+} from "./Subst.ts"
 
 export function reifyType(type: Type): Type {
   if (type.kind !== "Nu") return type

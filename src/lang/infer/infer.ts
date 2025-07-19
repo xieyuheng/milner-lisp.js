@@ -1,10 +1,10 @@
 import { globalFreshen } from "../../utils/name/globalFreshen.ts"
 import { setDifference } from "../../utils/set/Set.ts"
 import type { Exp } from "../exp/index.ts"
-import { reifyType } from "../reify/reifyType.ts"
 import * as Types from "../type/index.ts"
-import { type Type } from "../type/index.ts"
+import { typeFreeNames, type Type } from "../type/index.ts"
 import { ctxFind, ctxFreeTypeNames, ctxUpdate, type Ctx } from "./Ctx.ts"
+import { reifyType } from "./reifyType.ts"
 import {
   emptySubst,
   substDeepWalk,
@@ -66,10 +66,7 @@ function inferring(ctx: Ctx, state: State, exp: Exp): Type {
 }
 
 function createNuInCtx(ctx: Ctx, type: Type): Types.Nu {
-  const freeNames = setDifference(
-    Types.typeFreeNames(type),
-    ctxFreeTypeNames(ctx),
-  )
+  const freeNames = setDifference(typeFreeNames(type), ctxFreeTypeNames(ctx))
   return Types.Nu(Array.from(freeNames), type)
 }
 
