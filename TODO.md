@@ -1,4 +1,3 @@
-move `apply` to `evaluate/`
 move `unifyType` to `infer/`
 move `Subst` to `infer/`
 
