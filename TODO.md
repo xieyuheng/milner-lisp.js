@@ -1,5 +1,3 @@
-move `Subst` to `infer/`
-
 # builtin
 
 builtin support

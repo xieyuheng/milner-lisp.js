@@ -1,19 +1,17 @@
+import { globalFreshen } from "../../utils/name/globalFreshen.ts"
+import { setDifference } from "../../utils/set/Set.ts"
 import type { Exp } from "../exp/index.ts"
 import { reifyType } from "../reify/reifyType.ts"
+import * as Types from "../type/index.ts"
+import { type Type } from "../type/index.ts"
+import { ctxFind, ctxFreeTypeNames, ctxUpdate, type Ctx } from "./Ctx.ts"
 import {
   emptySubst,
   substDeepWalk,
   substOnCtx,
+  substUpdate,
   type Subst,
-} from "../subst/index.ts"
-import * as Types from "../type/index.ts"
-import {
-  createNuInCtx,
-  typeRemoveNu,
-  typeVarGen,
-  type Type,
-} from "../type/index.ts"
-import { ctxFind, ctxUpdate, type Ctx } from "./Ctx.ts"
+} from "./Subst.ts"
 import { unifyType } from "./unifyType.ts"
 
 export function infer(ctx: Ctx, exp: Exp): Type {
@@ -65,4 +63,37 @@ function inferring(ctx: Ctx, state: State, exp: Exp): Type {
       return inferring(bodyCtx, state, exp.body)
     }
   }
+}
+
+function createNuInCtx(ctx: Ctx, type: Type): Types.Nu {
+  const freeNames = setDifference(
+    Types.typeFreeNames(type),
+    ctxFreeTypeNames(ctx),
+  )
+  return Types.Nu(Array.from(freeNames), type)
+}
+
+function typeRemoveNu(type: Type): Type {
+  if (type.kind === "Nu") {
+    type = nuRefresh(type)
+    return type.type
+  }
+
+  return type
+}
+
+export function nuRefresh(type: Types.Nu): Types.Nu {
+  let freshNames = []
+  let subst = emptySubst()
+  for (const name of type.names) {
+    const freshName = globalFreshen("t")
+    freshNames.push(freshName)
+    subst = substUpdate(subst, name, Types.TypeVar(freshName))
+  }
+
+  return Types.Nu(freshNames, substDeepWalk(subst, type.type))
+}
+
+function typeVarGen(): Types.TypeVar {
+  return Types.TypeVar(globalFreshen("t"))
 }

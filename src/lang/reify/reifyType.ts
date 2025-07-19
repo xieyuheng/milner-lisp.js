@@ -4,7 +4,7 @@ import {
   substLength,
   substUpdate,
   type Subst,
-} from "../subst/index.ts"
+} from "../infer/index.ts"
 import * as Types from "../type/index.ts"
 import { type Type } from "../type/index.ts"
 

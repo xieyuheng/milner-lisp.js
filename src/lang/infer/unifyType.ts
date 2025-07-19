@@ -1,5 +1,5 @@
 import { arrayZip } from "../../utils/array/arrayZip.ts"
-import { substUpdate, substWalk, type Subst } from "../subst/index.ts"
+import { substUpdate, substWalk, type Subst } from "../infer/index.ts"
 import type { Type } from "../type/index.ts"
 
 export type SubstEffect = (subst: Subst) => Subst | undefined

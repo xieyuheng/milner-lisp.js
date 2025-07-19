@@ -1,4 +1,4 @@
-import { substEntries, type Subst } from "../subst/index.ts"
+import { substEntries, type Subst } from "../infer/index.ts"
 import { formatType } from "./formatType.ts"
 
 export function formatSubst(subst: Subst): string {

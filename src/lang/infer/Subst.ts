@@ -6,7 +6,8 @@ import {
   type Ctx,
 } from "../infer/Ctx.ts"
 import * as Types from "../type/index.ts"
-import { nuRefresh, type Type } from "../type/index.ts"
+import { type Type } from "../type/index.ts"
+import { nuRefresh } from "./infer.ts"
 
 export type Subst = Map<string, Type>
 
