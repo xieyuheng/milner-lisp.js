@@ -1,5 +1,6 @@
-move all mod functions to `Mod.ts`
 move `apply` to `evaluate/`
+move `unifyType` to `infer/`
+move `Subst` to `infer/`
 
 # builtin
 
