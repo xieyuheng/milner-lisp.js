@@ -11,7 +11,7 @@
     "examples"
   ],
   "bin": {
-    "lambda.js": "lib/main.js"
+    "milner-lisp.js": "lib/main.js"
   },
   "scripts": {
     "build": "tsc",
