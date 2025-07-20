@@ -1,2 +1,0 @@
-(claim id (nu (A) (-> A A)))
-(claim compose (nu (A B C) (-> (-> A B) (-> C A) C B)))

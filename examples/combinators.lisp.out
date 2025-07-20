@@ -1,5 +1,0 @@
-(claim S (nu (A B C) (-> (-> A B C) (-> A B) A C)))
-(claim K (nu (A B) (-> A B A)))
-(claim I (nu (A) (-> A A)))
-(claim C (nu (A B C) (-> (-> A B C) B A C)))
-(claim B (nu (A B C) (-> (-> A B) (-> C A) C B)))
