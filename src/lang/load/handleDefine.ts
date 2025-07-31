@@ -4,10 +4,8 @@ import { formatType } from "../format/index.ts"
 import { ctxFromMod } from "../infer/ctxFromMod.ts"
 import { infer } from "../infer/index.ts"
 import type { Mod } from "../mod/index.ts"
-import { modDefine, modFind, modResolve } from "../mod/index.ts"
-import type { ImportEntry, Stmt } from "../stmt/index.ts"
-import { globalLoadedMods } from "./globalLoadedMods.ts"
-import { run } from "./run.ts"
+import { modDefine } from "../mod/index.ts"
+import type { Stmt } from "../stmt/index.ts"
 
 export async function handleDefine(mod: Mod, stmt: Stmt): Promise<void> {
   if (stmt.kind === "Define") {
@@ -25,41 +23,4 @@ export async function handleDefine(mod: Mod, stmt: Stmt): Promise<void> {
 
     return
   }
-
-  if (stmt.kind === "Import") {
-    for (const entry of stmt.entries) {
-      await importOne(mod, stmt.path, entry)
-    }
-
-    return
-  }
-}
-
-async function importOne(
-  mod: Mod,
-  path: string,
-  entry: ImportEntry,
-): Promise<void> {
-  const url = modResolve(mod, path)
-  if (url.href === mod.url.href) {
-    throw new Error(`I can not circular import: ${path}`)
-  }
-
-  const found = globalLoadedMods.get(url.href)
-  if (found === undefined) {
-    throw new Error(`Mod is not loaded: ${path}`)
-  }
-
-  await run(found.mod)
-
-  const { name, rename } = entry
-
-  const def = modFind(found.mod, name)
-  if (def === undefined) {
-    throw new Error(
-      `I can not import undefined name: ${name}, from path: ${path}`,
-    )
-  }
-
-  modDefine(mod, rename || name, def)
 }
