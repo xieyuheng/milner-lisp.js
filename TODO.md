@@ -1,3 +1,5 @@
+inline run to load
+
 # builtin
 
 builtin support
@@ -15,7 +17,3 @@ support float-t
 # syntax
 
 `let-one` vs `let*` -- no `let`
-
-# module
-
-refactor `load` to support circular imports
