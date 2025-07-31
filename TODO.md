@@ -1,4 +1,3 @@
-use `globalLoadedMods`
 inline run to load
 
 # builtin
