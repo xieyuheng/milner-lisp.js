@@ -3,16 +3,16 @@ import { formatExp } from "../format/index.ts"
 import type { Def } from "../mod/index.ts"
 import { modFind, modOwnDefs, type Mod } from "../mod/index.ts"
 import { define } from "./define.ts"
-import { execute } from "./execute.ts"
+import { handleEffect } from "./handleEffect.ts"
 
-export function run(mod: Mod): void {
+export async function run(mod: Mod): Promise<void> {
   if (mod.isFinished) return
 
-  for (const stmt of mod.stmts) define(mod, stmt)
+  for (const stmt of mod.stmts) await define(mod, stmt)
 
   for (const def of modOwnDefs(mod).values()) assertAllNamesDefined(mod, def)
 
-  for (const stmt of mod.stmts) execute(mod, stmt)
+  for (const stmt of mod.stmts) await handleEffect(mod, stmt)
 
   mod.isFinished = true
 }

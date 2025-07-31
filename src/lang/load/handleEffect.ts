@@ -7,7 +7,7 @@ import { type Mod } from "../mod/index.ts"
 import { readback } from "../readback/index.ts"
 import type { Stmt } from "../stmt/index.ts"
 
-export function execute(mod: Mod, stmt: Stmt): void {
+export async function handleEffect(mod: Mod, stmt: Stmt): Promise<void> {
   if (stmt.kind === "Compute") {
     const ctx = ctxFromMod(mod)
     const type = infer(ctx, stmt.exp)
