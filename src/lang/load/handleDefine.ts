@@ -9,7 +9,7 @@ import type { ImportEntry, Stmt } from "../stmt/index.ts"
 import { globalLoadedMods } from "./globalLoadedMods.ts"
 import { run } from "./run.ts"
 
-export async function define(mod: Mod, stmt: Stmt): Promise<void> {
+export async function handleDefine(mod: Mod, stmt: Stmt): Promise<void> {
   if (stmt.kind === "Define") {
     const ctx = ctxFromMod(mod)
     const type = infer(ctx, stmt.exp)
