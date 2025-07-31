@@ -35,7 +35,11 @@ export async function define(mod: Mod, stmt: Stmt): Promise<void> {
   }
 }
 
-async function importOne(mod: Mod, path: string, entry: ImportEntry): Promise<void> {
+async function importOne(
+  mod: Mod,
+  path: string,
+  entry: ImportEntry,
+): Promise<void> {
   const url = modResolve(mod, path)
   if (url.href === mod.url.href) {
     throw new Error(`I can not circular import: ${path}`)
