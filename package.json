@@ -1,6 +1,6 @@
 {
   "name": "@xieyuheng/milner-lisp.js",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "repository": "github:xieyuheng/milner-lisp.js",
   "license": "GPL-3.0-or-later",
   "type": "module",
