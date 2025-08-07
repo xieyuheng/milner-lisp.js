@@ -1,4 +1,4 @@
-(import id compose "compose.lisp")
+(import "compose.lisp" id compose)
 
 id
 (id id)

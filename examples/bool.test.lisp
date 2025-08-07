@@ -1,4 +1,4 @@
-(import true false not and or "bool.lisp")
+(import "bool.lisp" true false not and or)
 
 false
 (and true false)
