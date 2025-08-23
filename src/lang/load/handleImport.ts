@@ -1,7 +1,6 @@
 import type { Mod } from "../mod/index.ts"
 import { modDefine, modFind, modResolve } from "../mod/index.ts"
 import type { ImportEntry, Stmt } from "../stmt/index.ts"
-import { globalLoadedMods } from "./globalLoadedMods.ts"
 import { load } from "./load.ts"
 export async function handleImport(mod: Mod, stmt: Stmt): Promise<void> {
   if (stmt.kind === "Import") {
